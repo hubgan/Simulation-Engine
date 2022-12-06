@@ -33,14 +33,13 @@ public class Animal {
         this.energy = energy;
     }
 
-    public String toString() {
-        return this.position + "," + this.direction;
-    }
-
     public void move() {
+        Vector2d oldPosition = this.position;
+
         changeDirection();
         if (this.map.canMoveTo(this.position.add(this.direction.toUnitVector()))) {
             this.position = this.map.correctPosition(this.position.add(this.direction.toUnitVector()));
+            positionChanged(oldPosition, this.position);
         }
     }
 
@@ -48,6 +47,10 @@ public class Animal {
         this.direction = this.direction.angleToDirection((this.direction.directionToAngle() +
                 this.direction.getAngleFromGen(this.genotype.getGens()[this.currentGenIndex])) % 360);
         this.currentGenIndex = (this.currentGenIndex + 1) % this.genotype.getGens().length;
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        this.map.positionChanged(oldPosition, newPosition, this);
     }
 
     // Getters methods
@@ -74,5 +77,9 @@ public class Animal {
 
     public int getKids() {
         return this.kids;
+    }
+
+    public String toString() {
+        return this.position + "," + this.direction + ", " + this.genotype;
     }
 }

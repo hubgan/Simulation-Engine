@@ -23,6 +23,15 @@ public class SimulationEngine implements IEngine {
         }
     }
 
+    @Override
+    public void run() {
+        for (Animal animal : this.animals) {
+            animal.move();
+        }
+
+        System.out.println(this.map);
+    }
+
     private int getRandomNumber(int bound) {
         return random.nextInt(bound);
     }
@@ -38,12 +47,5 @@ public class SimulationEngine implements IEngine {
             case 7 -> MapDirection.NORTHWEST;
             default -> MapDirection.NORTH;
         };
-    }
-
-    @Override
-    public void run() {
-        for (Animal animal : this.animals) {
-            animal.move();
-        }
     }
 }

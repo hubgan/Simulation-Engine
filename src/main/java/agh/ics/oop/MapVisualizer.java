@@ -65,7 +65,7 @@ public class MapVisualizer {
 
     private String drawObject(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
-            return String.valueOf(this.map.numberOfAnimals(currentPosition));
+            return String.valueOf(this.map.getNumberOfAnimals(currentPosition));
         }
 
         return " ";

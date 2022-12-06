@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -14,5 +15,10 @@ public class Genotype {
 
     public int[] getGens() {
         return this.gens;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(gens);
     }
 }
