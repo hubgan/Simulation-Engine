@@ -53,6 +53,10 @@ public class Animal {
         this.map.positionChanged(oldPosition, newPosition, this);
     }
 
+    public void eat(Plant plant) {
+        this.energy += plant.getEnergyGain();
+    }
+
     // Getters methods
 
     public MapDirection getDirection() {
@@ -80,6 +84,6 @@ public class Animal {
     }
 
     public String toString() {
-        return this.position + "," + this.direction + ", " + this.genotype;
+        return this.position + "," + this.direction + ", " + this.genotype + ", " + this.energy;
     }
 }

@@ -1,12 +1,8 @@
 package agh.ics.oop;
 
-import java.util.Random;
-
 public class HellMap extends AbstractWorldMap implements IMap {
-    private final Random random = new Random();
-
     HellMap(int width, int height) {
-        super(width, height);
+        super(width, height, 2);
     }
 
     @Override

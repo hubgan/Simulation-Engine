@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class SimulationEngine implements IEngine {
@@ -25,11 +26,31 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
+        moveAnimals();
+        eatPlants();
+
+        System.out.println(this.map);
+    }
+
+    private void moveAnimals() {
         for (Animal animal : this.animals) {
             animal.move();
         }
+    }
 
-        System.out.println(this.map);
+    private void eatPlants() {
+        HashMap<Vector2d, ArrayList<Animal>> animalsMap = this.map.getAnimals();
+        HashMap<Vector2d, Plant> plantsPositions = this.map.getPlants();
+
+        for (Vector2d position: animalsMap.keySet()) {
+            if (plantsPositions.containsKey(position)) {
+                ArrayList<Animal> animalsList = animalsMap.get(position);
+                animalsList.sort(new CustomComparator());
+                Animal animal = animalsList.get(0);
+                animal.eat(plantsPositions.get(position));
+                this.map.eatPlant(position);
+            }
+        }
     }
 
     private int getRandomNumber(int bound) {

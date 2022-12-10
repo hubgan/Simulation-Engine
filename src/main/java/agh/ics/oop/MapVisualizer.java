@@ -68,6 +68,10 @@ public class MapVisualizer {
             return String.valueOf(this.map.getNumberOfAnimals(currentPosition));
         }
 
+        if (this.map.getPlants().containsKey(currentPosition)) {
+            return "*";
+        }
+
         return " ";
     }
 }
