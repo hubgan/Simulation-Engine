@@ -8,9 +8,14 @@ public class SimulationEngine implements IEngine {
     private final IMap map;
     private final ArrayList<Animal> animals = new ArrayList<>();
     private final Random random = new Random();
+    private final int energyNeededToCopulate = 10;
+    private final int numberOfPlantsGrowEveryday = 1;
+    private final int numberOfGens = 5;
+    private final Variants variants;
 
-    SimulationEngine(IMap map, int startingNumberOfAnimals, int startingNumberOfEnergy) {
+    SimulationEngine(IMap map, int startingNumberOfAnimals, int startingNumberOfEnergy, Variants variants) {
         this.map = map;
+        this.variants = variants;
 
         Vector2d mapBoundary = this.map.getMapBorders();
 
@@ -28,6 +33,8 @@ public class SimulationEngine implements IEngine {
     public void run() {
         moveAnimals();
         eatPlants();
+        createYoungAnimal();
+        growPlants();
 
         System.out.println(this.map);
     }
@@ -51,6 +58,40 @@ public class SimulationEngine implements IEngine {
                 this.map.eatPlant(position);
             }
         }
+    }
+
+    private void createYoungAnimal() {
+        HashMap<Vector2d, ArrayList<Animal>> animalsMap = this.map.getAnimals();
+
+        for (Vector2d position: animalsMap.keySet()) {
+            ArrayList<Animal> animalsList = animalsMap.get(position);
+            animalsList.sort(new CustomComparator());
+
+            if (animalsList.size() > 1 && animalsList.get(0).getEnergy() > this.energyNeededToCopulate) {
+                Animal strongerAnimal = animalsList.get(0);
+                Animal weakerAnimal = animalsList.get(1);
+
+                int lowerPercent = weakerAnimal.getEnergy() * 100 / (weakerAnimal.getEnergy() + strongerAnimal.getEnergy());
+                int higherPercent = 100 - lowerPercent;
+                int newAnimalEnergy = (lowerPercent * weakerAnimal.getEnergy() / 100) +
+                        (strongerAnimal.getEnergy() * higherPercent / 100);
+
+                strongerAnimal.decreaseEnergy(higherPercent * strongerAnimal.getEnergy() / 100);
+                weakerAnimal.decreaseEnergy(lowerPercent * weakerAnimal.getEnergy() / 100);
+
+                int midPoint = this.numberOfGens * lowerPercent / 100;
+
+                Animal youngAnimal = new Animal(position, getRandomDirection(getRandomNumber(8)), this.map,
+                        newAnimalEnergy, strongerAnimal.getGenotype(), weakerAnimal.getGenotype(), midPoint);
+
+                this.animals.add(youngAnimal);
+                this.map.place(youngAnimal);
+            }
+        }
+    }
+
+    private void growPlants() {
+        this.map.generateRandomNumberOfPlants(this.numberOfPlantsGrowEveryday);
     }
 
     private int getRandomNumber(int bound) {

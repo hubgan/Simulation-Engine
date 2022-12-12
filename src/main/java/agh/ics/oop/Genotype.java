@@ -2,7 +2,6 @@ package agh.ics.oop;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class Genotype {
     private final int[] gens;
@@ -10,7 +9,22 @@ public class Genotype {
 
     Genotype(int numberOfGens) {
         this.gens = new int[numberOfGens];
-        IntStream.range(0, this.gens.length).forEach(i -> this.gens[i] = this.random.nextInt(7));
+
+        for (int i = 0; i < numberOfGens; i++) {
+            this.gens[i] = this.random.nextInt(7);
+        }
+    }
+
+    Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint) {
+        this.gens = new int[numberOfGens];
+
+        for (int i = 0; i < midPoint; i++) {
+            this.gens[i] = secondGenotype[i];
+        }
+
+        for (int i = midPoint; i < numberOfGens; i++) {
+            this.gens[i] = firstGenotype[i];
+        }
     }
 
     public int[] getGens() {
