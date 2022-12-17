@@ -1,11 +1,12 @@
 package agh.ics.oop;
 
 public class Plant {
-    private Vector2d position;
-    private int energyGain = 1;
+    private final Vector2d position;
+    private final int energyGain;
 
     public Plant(Vector2d position) {
         this.position = position;
+        this.energyGain = 1;
     }
 
     public int getEnergyGain() {

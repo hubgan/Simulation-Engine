@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.Random;
 
 public class Animal {
-    private MapDirection direction;
+    private MapDirection direction = MapDirection.NORTH.genToDirection(getRandomNumber(8));
     private Vector2d position;
     private final Genotype genotype;
     private final IMap map;
@@ -31,26 +31,25 @@ public class Animal {
         this.genotype = new Genotype(this.numberOfGens);
     }
 
-    public Animal(Vector2d position, MapDirection direction, int energy, IMap map) {
+    public Animal(Vector2d position, int energy, IMap map) {
         this.map = map;
         this.position = position;
-        this.direction = direction;
         this.energy = energy;
         this.genotype = new Genotype(this.numberOfGens);
     }
 
-    public Animal(Vector2d position, MapDirection direction, IMap map, int energy,
+    public Animal(Vector2d position, IMap map, int energy,
                   int[] strongerGenotype, int[] weakerGenotype, int midPoint) {
         this.position = position;
-        this.direction = direction;
         this.map = map;
         this.energy = energy;
 
         if (new Random().nextInt(2) == 0) {
-            this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype, midPoint);
+            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint);
         }
         else {
-            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint);
+            this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype,
+                    this.numberOfGens - midPoint);
         }
     }
 
@@ -109,5 +108,9 @@ public class Animal {
 
     public String toString() {
         return this.position + "," + this.direction + ", " + this.genotype + ", " + this.energy;
+    }
+
+    private int getRandomNumber(int bound) {
+        return new Random().nextInt(bound);
     }
 }
