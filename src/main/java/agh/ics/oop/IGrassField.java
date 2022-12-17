@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public interface IGrassField {
     void addPlant(int quantity);
-    Plant getPlant(Vector2d position);
     void deletePlant(Vector2d position);
     HashMap<Vector2d, Plant> getPlants();
 }

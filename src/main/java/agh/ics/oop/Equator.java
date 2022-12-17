@@ -68,11 +68,6 @@ public class Equator implements IGrassField {
     }
 
     @Override
-    public Plant getPlant(Vector2d position) {
-        return this.plantsPositions.get(position);
-    }
-
-    @Override
     public void deletePlant(Vector2d position) {
         this.plantsPositions.remove(position);
 

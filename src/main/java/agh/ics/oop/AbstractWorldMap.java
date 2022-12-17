@@ -20,7 +20,6 @@ public abstract class AbstractWorldMap implements IMap {
     @Override
     public void eatPlant(Vector2d position) {
         this.garden.deletePlant(position);
-        this.garden.addPlant(1);
     }
 
     @Override
