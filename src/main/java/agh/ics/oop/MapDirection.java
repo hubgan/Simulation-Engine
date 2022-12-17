@@ -10,44 +10,36 @@ public enum MapDirection {
     WEST,
     NORTHWEST;
 
-    public int directionToAngle() {
+    public int directionToGen() {
         return switch (this) {
             case NORTH -> 0;
-            case NORTHEAST -> 45;
-            case EAST -> 90;
-            case SOUTHEAST -> 135;
-            case SOUTH -> 180;
-            case SOUTHWEST -> 225;
-            case WEST -> 270;
-            case NORTHWEST -> 315;
-        };
-    }
-
-    public MapDirection angleToDirection(int angle) {
-        return switch (angle) {
-            case 45 -> NORTHEAST;
-            case 90 -> EAST;
-            case 135 -> SOUTHEAST;
-            case 180 -> SOUTH;
-            case 225 -> SOUTHWEST;
-            case 270 -> WEST;
-            case 315 -> NORTHWEST;
-            default -> NORTH;
+            case NORTHEAST -> 1;
+            case EAST -> 2;
+            case SOUTHEAST -> 3;
+            case SOUTH -> 4;
+            case SOUTHWEST -> 5;
+            case WEST -> 6;
+            case NORTHWEST -> 7;
         };
     }
 
 
-    public int getAngleFromGen(int gen) {
+    private MapDirection genToDirection(int gen) {
         return switch (gen) {
-            case 1 -> 45;
-            case 2 -> 90;
-            case 3 -> 135;
-            case 4 -> 180;
-            case 5 -> 225;
-            case 6 -> 270;
-            case 7 -> 315;
-            default -> 0;
+            case 0 -> NORTH;
+            case 1 -> NORTHEAST;
+            case 2 -> EAST;
+            case 3 -> SOUTHEAST;
+            case 4 -> SOUTH;
+            case 5 -> SOUTHWEST;
+            case 6 -> WEST;
+            case 7 -> NORTHWEST;
+            default -> throw new IllegalStateException("Unexpected value: " + gen);
         };
+    }
+
+    public MapDirection changeDirection(int gen) {
+        return genToDirection((directionToGen() + gen) % 8);
     }
 
     public Vector2d toUnitVector() {

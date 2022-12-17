@@ -65,8 +65,7 @@ public class Animal {
     }
 
     public void changeDirection() {
-        this.direction = this.direction.angleToDirection((this.direction.directionToAngle() +
-                this.direction.getAngleFromGen(this.genotype.getGens()[this.currentGenIndex])) % 360);
+        this.direction = this.direction.changeDirection(this.genotype.getGens()[this.currentGenIndex]);
         this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
     }
 

@@ -10,7 +10,6 @@ public class EarthMap extends AbstractWorldMap implements IMap {
         this.upperBorder = new Vector2d(Integer.MAX_VALUE, this.height - 1);
     }
 
-
     @Override
     public boolean canMoveTo(Vector2d position) {
         return position.follows(this.lowerBorder) && position.precedes(this.upperBorder);
@@ -18,10 +17,6 @@ public class EarthMap extends AbstractWorldMap implements IMap {
 
     @Override
     public Vector2d correctPosition(Vector2d position) {
-        if (position.x >= 0) {
-            return new Vector2d(position.x % this.width, position.y);
-        }
-
-        return new Vector2d(this.width - 1, position.y);
+        return new Vector2d(Math.floorMod(position.x, this.width), position.y);
     }
 }
