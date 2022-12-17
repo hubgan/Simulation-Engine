@@ -20,6 +20,6 @@ public interface IMap {
     boolean isOccupied(Vector2d position);
 
     void positionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal);
-    void generateRandomNumberOfPlants(int n);
     void eatPlant(Vector2d position);
+    void generateRandomNumberOfPlants(int quantity);
 }
