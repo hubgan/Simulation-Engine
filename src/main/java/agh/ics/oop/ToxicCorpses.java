@@ -9,13 +9,15 @@ public class ToxicCorpses implements IGrassField {
 
     private int width;
     private int height;
+    private final Variants variants;
     private Random random = new Random();
 
-    public ToxicCorpses(int width, int height, int startingNumberOfPlants) {
+    public ToxicCorpses(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
+        this.variants = variants;
         fillPositionsList();
-        generatePlantsWithoutSort(startingNumberOfPlants);
+        generatePlantsWithoutSort(this.variants.getStartingNumberOfPlants());
     }
 
     public void deadAnimal(Vector2d position) {
@@ -38,7 +40,7 @@ public class ToxicCorpses implements IGrassField {
             List<Vector2d> keysAsArray = new ArrayList<>(freePositions.keySet());
             Vector2d position = keysAsArray.get(this.random.nextInt(keysAsArray.size()));
 
-            this.plantsPositions.put(position, new Plant(position));
+            this.plantsPositions.put(position, new Plant(position, this.variants.getPlantEnergyGain()));
             this.takenPositions.put(position, this.freePositions.get(position));
             this.freePositions.remove(position);
         }
@@ -49,10 +51,9 @@ public class ToxicCorpses implements IGrassField {
         Iterator<Map.Entry<Vector2d, Integer>> sorted = this.freePositions.entrySet().stream().sorted(Map.Entry.comparingByValue()).iterator();
         for (int i = 0; i < n; i++) {
             Vector2d position = sorted.next().getKey();
-            this.plantsPositions.put(position, new Plant(position));
+            this.plantsPositions.put(position, new Plant(position, this.variants.getPlantEnergyGain()));
             this.takenPositions.put(position, this.freePositions.get(position));
             this.freePositions.remove(position);
-
         }
     }
 
@@ -60,7 +61,7 @@ public class ToxicCorpses implements IGrassField {
     public void addPlant(int quantity) {
         int randInt = this.random.nextInt(10);
 
-        if (randInt > 8) generatePlantsWithoutSort(quantity);
+        if (randInt > 7) generatePlantsWithoutSort(quantity);
         else generatePlantsWithSort(quantity);
     }
 

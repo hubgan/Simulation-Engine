@@ -11,15 +11,24 @@ public abstract class AbstractWorldMap implements IMap {
     protected final Random random = new Random();
     protected final IGrassField garden;
 
-    AbstractWorldMap(int width, int height, int startNumberOfPlants) {
+    AbstractWorldMap(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
-        this.garden = new Equator(this.width, this.height, startNumberOfPlants);
+        this.garden = new ToxicCorpses(this.width, this.height, variants);
     }
 
     @Override
     public void eatPlant(Vector2d position) {
         this.garden.deletePlant(position);
+    }
+
+    @Override
+    public void deadAnimal(Animal animal) {
+        this.animals.get(animal.getPosition()).remove(animal);
+
+        if (this.animals.get(animal.getPosition()).size() == 0) {
+            this.animals.remove(animal.getPosition());
+        }
     }
 
     @Override

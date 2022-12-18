@@ -4,8 +4,8 @@ public class EarthMap extends AbstractWorldMap implements IMap {
     private final Vector2d lowerBorder;
     private final Vector2d upperBorder;
 
-    EarthMap(int width, int height) {
-        super(width, height, 2);
+    EarthMap(int width, int height, Variants variants) {
+        super(width, height, variants);
         this.lowerBorder = new Vector2d(Integer.MIN_VALUE, 0);
         this.upperBorder = new Vector2d(Integer.MAX_VALUE, this.height - 1);
     }

@@ -23,4 +23,6 @@ public interface IMap {
     void positionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal);
     void eatPlant(Vector2d position);
     void generateRandomNumberOfPlants(int quantity);
+
+    void deadAnimal(Animal animal);
 }

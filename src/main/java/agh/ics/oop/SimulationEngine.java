@@ -8,23 +8,26 @@ public class SimulationEngine implements IEngine {
     private final IMap map;
     private final ArrayList<Animal> animals = new ArrayList<>();
     private final Random random = new Random();
-    private final int energyNeededToCopulate = 10;
-    private final int numberOfPlantsGrowEveryday = 1;
+    private final int energyNeededToCopulate;
+    private final int numberOfPlantsGrowEveryday;
+    private final int numberOfGens;
 
     private final ArrayList<Animal> deadAnimals = new ArrayList<>();
-    private final int numberOfGens = 5;
     private final Variants variants;
 
-    SimulationEngine(IMap map, int startingNumberOfAnimals, int startingNumberOfEnergy, Variants variants) {
+    SimulationEngine(IMap map, Variants variants) {
         this.map = map;
         this.variants = variants;
+        this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
+        this.numberOfPlantsGrowEveryday = this.variants.getAmountOfPlantsGrowEveryDay();
+        this.numberOfGens = this.variants.getNumberOfGens();
 
         Vector2d mapBoundary = this.map.getMapBorders();
 
-        for (int i = 0; i < startingNumberOfAnimals; i++) {
+        for (int i = 0; i < this.variants.getStartingNumberOfAnimals(); i++) {
             Vector2d position = new Vector2d(getRandomNumber(mapBoundary.x), getRandomNumber(mapBoundary.y));
 
-            Animal animal = new Animal(position, startingNumberOfEnergy, this.map);
+            Animal animal = new Animal(position, this.variants.getStartingEnergyOfAnimals(), this.map, this.variants);
             animals.add(animal);
             this.map.place(animal);
         }
@@ -32,13 +35,14 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
-        checkDead();
-        moveAnimals();
-        eatPlants();
-        createYoungAnimal();
-        growPlants();
-
-        System.out.println(this.map);
+        while (this.animals.size() > 0) {
+            checkDead();
+            moveAnimals();
+            eatPlants();
+            createYoungAnimal();
+            growPlants();
+            System.out.println(this.map);
+        }
     }
     private void checkDead() {
         ArrayList<Animal> toRemove = new ArrayList<>();
@@ -46,13 +50,12 @@ public class SimulationEngine implements IEngine {
             if (animal.getEnergy() <= 0) {
                 this.deadAnimals.add(animal);
                 toRemove.add(animal);
-
             }
 
         }
         for (Animal deadAnimal: toRemove) {
             this.animals.remove(deadAnimal);
-            this.map.getAnimals().get(deadAnimal.getPosition()).remove(deadAnimal.getPosition());
+            this.map.deadAnimal(deadAnimal);
             if ((this.map.getGarden()) instanceof ToxicCorpses) {
                 ((ToxicCorpses) this.map.getGarden()).deadAnimal(deadAnimal.getPosition());
             }
@@ -63,7 +66,7 @@ public class SimulationEngine implements IEngine {
     private void moveAnimals() {
         for (Animal animal : this.animals) {
             animal.move();
-            animal.decreaseEnergy(5);
+            animal.decreaseEnergy(this.variants.getEnergyLost());
         }
     }
 
@@ -104,7 +107,8 @@ public class SimulationEngine implements IEngine {
                 int midPoint = this.numberOfGens * lowerPercent / 100;
 
                 Animal youngAnimal = new Animal(position, this.map,
-                        newAnimalEnergy, strongerAnimal.getGenotype(), weakerAnimal.getGenotype(), midPoint);
+                        newAnimalEnergy, strongerAnimal.getGenotype(), weakerAnimal.getGenotype(), midPoint,
+                        this.variants);
 
                 this.animals.add(youngAnimal);
                 this.map.place(youngAnimal);
