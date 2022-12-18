@@ -1,8 +1,12 @@
 package agh.ics.oop;
 
-
+import agh.ics.oop.gui.OptionsApplication;
+import javafx.application.Application;
 public class World {
     public static void main(String[] args) {
+        /*System.out.println("Start");
+        Application.launch(OptionsApplication.class, args);
+        System.out.println("Stop");*/
 
 
         Variants variants = new Variants(5, 5, "HellMap", "pełna losowość",
