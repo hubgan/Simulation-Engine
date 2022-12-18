@@ -10,6 +10,8 @@ public class SimulationEngine implements IEngine {
     private final Random random = new Random();
     private final int energyNeededToCopulate = 10;
     private final int numberOfPlantsGrowEveryday = 1;
+
+    private final ArrayList<Animal> deadAnimals = new ArrayList<>();
     private final int numberOfGens = 5;
     private final Variants variants;
 
@@ -30,6 +32,7 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
+        checkDead();
         moveAnimals();
         eatPlants();
         createYoungAnimal();
@@ -37,10 +40,30 @@ public class SimulationEngine implements IEngine {
 
         System.out.println(this.map);
     }
+    private void checkDead() {
+        ArrayList<Animal> toRemove = new ArrayList<>();
+        for (Animal animal : this.animals) {
+            if (animal.getEnergy() <= 0) {
+                this.deadAnimals.add(animal);
+                toRemove.add(animal);
+
+            }
+
+        }
+        for (Animal deadAnimal: toRemove) {
+            this.animals.remove(deadAnimal);
+            this.map.getAnimals().get(deadAnimal.getPosition()).remove(deadAnimal.getPosition());
+            if ((this.map.getGarden()) instanceof ToxicCorpses) {
+                ((ToxicCorpses) this.map.getGarden()).deadAnimal(deadAnimal.getPosition());
+            }
+        }
+
+    }
 
     private void moveAnimals() {
         for (Animal animal : this.animals) {
             animal.move();
+            animal.decreaseEnergy(5);
         }
     }
 

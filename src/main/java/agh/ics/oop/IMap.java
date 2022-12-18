@@ -13,6 +13,7 @@ public interface IMap {
     Vector2d correctPosition(Vector2d position);
 
     Vector2d getMapBorders();
+    IGrassField getGarden();
 
     HashMap<Vector2d, ArrayList<Animal>> getAnimals();
     HashMap<Vector2d, Plant> getPlants();

@@ -74,6 +74,11 @@ public abstract class AbstractWorldMap implements IMap {
     }
 
     @Override
+    public IGrassField getGarden() {
+        return this.garden;
+    }
+
+    @Override
     public String toString() {
         return new MapVisualizer(this).draw(new Vector2d(0, 0), new Vector2d(this.width - 1, this.height - 1));
     }
