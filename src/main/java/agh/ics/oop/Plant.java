@@ -4,9 +4,9 @@ public class Plant {
     private final Vector2d position;
     private final int energyGain;
 
-    public Plant(Vector2d position) {
+    public Plant(Vector2d position, int energyGain) {
         this.position = position;
-        this.energyGain = 1;
+        this.energyGain = energyGain;
     }
 
     public int getEnergyGain() {

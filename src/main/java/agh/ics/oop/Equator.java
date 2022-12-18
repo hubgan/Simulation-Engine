@@ -9,15 +9,17 @@ public class Equator implements IGrassField {
     protected final ArrayList<Vector2d> freeGrassLandPositions = new ArrayList<>();
     protected final HashMap<Vector2d, Plant> plantsPositions = new HashMap<>();
     private Random random = new Random();
+    private final Variants variants;
 
     private int width;
     private int height;
 
-    Equator(int width, int height, int startingNumberOfPlants) {
+    Equator(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
+        this.variants = variants;
         fillPositionsList();
-        generateRandomNumberOfPlants(startingNumberOfPlants);
+        generateRandomNumberOfPlants(this.variants.getStartingNumberOfPlants());
     }
 
     private void fillPositionsList() {
@@ -55,7 +57,7 @@ public class Equator implements IGrassField {
         int randomIndexPosition = random.nextInt(list.size());
         Vector2d position = list.get(randomIndexPosition);
         list.remove(position);
-        this.plantsPositions.put(position, new Plant(position));
+        this.plantsPositions.put(position, new Plant(position, this.variants.getPlantEnergyGain()));
     }
 
     private boolean isInEquatorBoundary(int y) {

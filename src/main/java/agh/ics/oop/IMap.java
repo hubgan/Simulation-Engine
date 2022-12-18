@@ -13,6 +13,7 @@ public interface IMap {
     Vector2d correctPosition(Vector2d position);
 
     Vector2d getMapBorders();
+    IGrassField getGarden();
 
     HashMap<Vector2d, ArrayList<Animal>> getAnimals();
     HashMap<Vector2d, Plant> getPlants();
@@ -22,4 +23,6 @@ public interface IMap {
     void positionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal);
     void eatPlant(Vector2d position);
     void generateRandomNumberOfPlants(int quantity);
+
+    void deadAnimal(Animal animal);
 }

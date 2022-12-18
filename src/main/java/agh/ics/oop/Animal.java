@@ -7,49 +7,37 @@ public class Animal {
     private Vector2d position;
     private final Genotype genotype;
     private final IMap map;
-    private final int numberOfGens = 5;
+    private final int numberOfGens;
+    private final Variants variants;
     private int energy;
     private int old = 0;
     private int kids = 0;
     private int currentGenIndex = 0;
 
-    public Animal() {
-        this.direction = MapDirection.EAST;
-        this.position = new Vector2d(2, 2);
-        this.energy = 10;
-        this.map = new EarthMap(5, 5);
-        this.genotype = new Genotype(this.numberOfGens);
-    }
-
-    public Animal(int energy, int old, int kids) {
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
-        this.energy = energy;
-        this.old = old;
-        this.kids = kids;
-        this.map = new EarthMap(5, 5);
-        this.genotype = new Genotype(this.numberOfGens);
-    }
-
-    public Animal(Vector2d position, int energy, IMap map) {
+    public Animal(Vector2d position, int energy, IMap map, Variants variants) {
         this.map = map;
         this.position = position;
         this.energy = energy;
+        this.variants = variants;
+        this.numberOfGens = variants.getNumberOfGens();
         this.genotype = new Genotype(this.numberOfGens);
     }
 
     public Animal(Vector2d position, IMap map, int energy,
-                  int[] strongerGenotype, int[] weakerGenotype, int midPoint) {
+                  int[] strongerGenotype, int[] weakerGenotype, int midPoint, Variants variants) {
         this.position = position;
         this.map = map;
         this.energy = energy;
+        this.variants = variants;
+        this.numberOfGens = this.variants.getNumberOfGens();
 
         if (new Random().nextInt(2) == 0) {
-            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint);
+            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint,
+                    this.variants);
         }
         else {
             this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype,
-                    this.numberOfGens - midPoint);
+                    this.numberOfGens - midPoint, this.variants);
         }
     }
 
@@ -63,9 +51,30 @@ public class Animal {
         }
     }
 
-    public void changeDirection() {
+    private void changeDirection() {
         this.direction = this.direction.changeDirection(this.genotype.getGens()[this.currentGenIndex]);
-        this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
+        changeGenIndex();
+    }
+
+    private void changeGenIndex() {
+        switch (this.variants.getBehaviourVariant()) {
+            case PREDESTINATION -> {
+                this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
+            }
+            case CRAZY -> {
+                int randomNumber = this.getRandomNumber(10);
+                if (randomNumber < 8) {
+                    this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
+                }
+                else {
+                    int lastGenIndex = this.currentGenIndex;
+
+                    while (lastGenIndex == this.currentGenIndex) {
+                        this.currentGenIndex = this.getRandomNumber(this.numberOfGens);
+                    }
+                }
+            }
+        }
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
