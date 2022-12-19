@@ -49,7 +49,7 @@ public class Genotype {
                 for (int i = 0; i < randomNumber; i++) {
                     int randomGen = generateRandomNumber(this.gens.length - 1, 0);
                     if (generateRandomNumber(2, 0) == 0) {
-                        this.gens[randomGen] = (this.gens[randomGen] + 1) % this.gens.length;
+                        this.gens[randomGen] = Math.floorMod(this.gens[randomGen] + 1, this.gens.length);
                     }
                     else {
                         this.gens[randomGen] = Math.floorMod(this.gens[randomGen] - 1, this.gens.length);
