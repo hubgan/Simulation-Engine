@@ -18,6 +18,7 @@ public class SimulationEngine implements IEngine, Runnable {
 
     private final ArrayList<Animal> deadAnimals = new ArrayList<>();
     private final Variants variants;
+    private Boolean runThread = true;
 
     public SimulationEngine(IMap map, Variants variants, SimulationController simulationController)  {
         this.simulationController = simulationController;
@@ -40,7 +41,7 @@ public class SimulationEngine implements IEngine, Runnable {
 
     @Override
     public void run() {
-        while (animals.size() > 0) {
+        while (animals.size() > 0 && runThread) {
             checkDead();
             moveAnimals();
             eatPlants();
@@ -55,8 +56,9 @@ public class SimulationEngine implements IEngine, Runnable {
             }
 
         }
-
-
+    }
+    public void changeThreadState() {
+        this.runThread = !this.runThread;
     }
 
     private void checkDead() {

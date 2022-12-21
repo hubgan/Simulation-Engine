@@ -34,7 +34,7 @@ public class SimulationController {
         this.variants = new Variants(5, 5, "HellMap", "lekka korekta",
                 "nieco szaleństwa", 1, 2, 1
                 , 4, 50, 5, 0,
-                2, 5, 30);
+                2, 5, 2);
         this.map = createMap(variants);
         this.engine = new SimulationEngine(map, variants, this);
         renderGridPane();
@@ -94,17 +94,15 @@ public class SimulationController {
 
     @FXML
     protected void switchSimulationState() {
-
+        this.engine.changeThreadState();
         if (this.isStarted) {
-
             stateButton.setText("Start");
             this.isStarted = false;
-
         } else {
-
             stateButton.setText("Stop");
             this.isStarted = true;
-
+            this.thread = new Thread(this.engine);
+            this.thread.start();
         }
     }
 
