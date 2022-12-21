@@ -3,7 +3,7 @@ package agh.ics.oop;
 public class HellMap extends AbstractWorldMap implements IMap {
     private final Vector2d lowerBorder;
     private final Vector2d upperBorder;
-    HellMap(int width, int height, Variants variants) {
+    public HellMap(int width, int height, Variants variants) {
         super(width, height, variants);
         this.lowerBorder = new Vector2d(0, 0);
         this.upperBorder = new Vector2d(width - 1, height - 1);

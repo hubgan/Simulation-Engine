@@ -1,5 +1,9 @@
 package agh.ics.oop;
 
+import agh.ics.oop.enums.BehaviourVariants;
+import agh.ics.oop.enums.MapVariants;
+import agh.ics.oop.enums.MutationVariants;
+
 public class Variants {
     private final int mapWidth;
     private final int mapHeight;
@@ -17,20 +21,11 @@ public class Variants {
     private final int numberOfGens;
     private final int energyLost;
 
-    enum MapVariants {
-        EARTHMAP,
-        HELLMAP
-    }
 
-    enum MutationVariants {
-        FULLRANDOM,
-        SLIGHTCHANGES
-    }
 
-    enum BehaviourVariants {
-        PREDESTINATION,
-        CRAZY
-    }
+
+
+
 
     public Variants(int width, int height, String mapVariant, String mutationVariant, String behaviourVariant
             , int plantEnergyGain, int startingNumberOfPlants,

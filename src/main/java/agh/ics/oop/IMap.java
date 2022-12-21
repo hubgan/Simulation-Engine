@@ -25,4 +25,6 @@ public interface IMap {
     void generateRandomNumberOfPlants(int quantity);
 
     void deadAnimal(Animal animal);
+    int getHeight();
+    int getWidth();
 }
