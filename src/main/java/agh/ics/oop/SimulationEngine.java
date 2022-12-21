@@ -50,7 +50,7 @@ public class SimulationEngine implements IEngine, Runnable {
             System.out.println(this.map);
             Platform.runLater(simulationController::renderGridPane);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
