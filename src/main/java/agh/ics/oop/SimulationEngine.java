@@ -1,21 +1,27 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.SimulationController;
+import javafx.application.Platform;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class SimulationEngine implements IEngine {
+public class SimulationEngine implements IEngine, Runnable {
     private final IMap map;
     private final ArrayList<Animal> animals = new ArrayList<>();
     private final Random random = new Random();
     private final int energyNeededToCopulate;
     private final int numberOfPlantsGrowEveryday;
     private final int numberOfGens;
+    private SimulationController simulationController;
 
     private final ArrayList<Animal> deadAnimals = new ArrayList<>();
     private final Variants variants;
+    private Boolean runThread = true;
 
-    SimulationEngine(IMap map, Variants variants) {
+    public SimulationEngine(IMap map, Variants variants, SimulationController simulationController)  {
+        this.simulationController = simulationController;
         this.map = map;
         this.variants = variants;
         this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
@@ -35,15 +41,26 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
-        while (this.animals.size() > 0) {
+        while (animals.size() > 0 && runThread) {
             checkDead();
             moveAnimals();
             eatPlants();
             createYoungAnimal();
             growPlants();
             System.out.println(this.map);
+            Platform.runLater(simulationController::renderGridPane);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
+    public void changeThreadState() {
+        this.runThread = !this.runThread;
+    }
+
     private void checkDead() {
         ArrayList<Animal> toRemove = new ArrayList<>();
         for (Animal animal : this.animals) {
@@ -53,7 +70,7 @@ public class SimulationEngine implements IEngine {
             }
 
         }
-        for (Animal deadAnimal: toRemove) {
+        for (Animal deadAnimal : toRemove) {
             this.animals.remove(deadAnimal);
             this.map.deadAnimal(deadAnimal);
             if ((this.map.getGarden()) instanceof ToxicCorpses) {
@@ -74,7 +91,7 @@ public class SimulationEngine implements IEngine {
         HashMap<Vector2d, ArrayList<Animal>> animalsMap = this.map.getAnimals();
         HashMap<Vector2d, Plant> plantsPositions = this.map.getPlants();
 
-        for (Vector2d position: animalsMap.keySet()) {
+        for (Vector2d position : animalsMap.keySet()) {
             if (plantsPositions.containsKey(position)) {
                 ArrayList<Animal> animalsList = animalsMap.get(position);
                 animalsList.sort(new CustomComparator());
@@ -88,7 +105,7 @@ public class SimulationEngine implements IEngine {
     private void createYoungAnimal() {
         HashMap<Vector2d, ArrayList<Animal>> animalsMap = this.map.getAnimals();
 
-        for (Vector2d position: animalsMap.keySet()) {
+        for (Vector2d position : animalsMap.keySet()) {
             ArrayList<Animal> animalsList = animalsMap.get(position);
             animalsList.sort(new CustomComparator());
 

@@ -12,7 +12,7 @@ public class World {
         System.out.println("Stop");*/
 
 
-        Variants variants = new Variants(5, 5, "HellMap", "lekka korekta",
+        /*Variants variants = new Variants(5, 5, "HellMap", "lekka korekta",
                 "nieco szaleństwa", 1, 2, 1
                 , 4, 50, 5, 0,
                 2, 5, 30);
@@ -29,7 +29,7 @@ public class World {
         System.out.println(map.getPlants());
         engine.run();
         System.out.println(map.getAnimals());
-        System.out.println(map.getPlants());
+        System.out.println(map.getPlants());*/
     }
 
     private static IMap createMap(Variants variants) {
