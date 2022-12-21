@@ -7,10 +7,10 @@ public class ToxicCorpses implements IGrassField {
     protected final HashMap<Vector2d, Integer> takenPositions = new HashMap<>();
     protected final HashMap<Vector2d, Plant> plantsPositions = new HashMap<>();
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private final Variants variants;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public ToxicCorpses(int width, int height, Variants variants) {
         this.width = width;
@@ -61,8 +61,8 @@ public class ToxicCorpses implements IGrassField {
     public void addPlant(int quantity) {
         int randInt = this.random.nextInt(10);
 
-        if (randInt > 7) generatePlantsWithoutSort(quantity);
-        else generatePlantsWithSort(quantity);
+        if (randInt < 8) generatePlantsWithSort(quantity);
+        else generatePlantsWithoutSort(quantity);
     }
 
     @Override
