@@ -1,0 +1,63 @@
+package agh.ics.oop;
+
+import java.io.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Configuration {
+    File file;
+    String name;
+
+    public Configuration(String name) {
+        String absolutePath = new File("").getAbsolutePath();
+        this.file = new File(absolutePath + "/src/main/resources/configurations/" + name + ".txt");
+        this.name = name;
+        createConfiguration();
+    }
+
+    private Boolean createConfiguration() {
+        try {
+            return this.file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeConfiguration(LinkedHashMap<String, String> configuration) {
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            for (Map.Entry<String, String> entry : configuration.entrySet()) {
+                bufferedWriter.write(entry.getKey() + ": " + entry.getValue());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public LinkedHashMap<String, String> readConfiguration() {
+        BufferedReader bufferedReader;
+        String record;
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(this.file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        while (true) {
+            try {
+                if ((record = bufferedReader.readLine()) == null) break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String[] parts = record.split(": ");
+            map.put(parts[0], parts[1]);
+        }
+        return map;
+    }
+}

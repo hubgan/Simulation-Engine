@@ -10,7 +10,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 
 public class SimulationController {
@@ -27,7 +26,7 @@ public class SimulationController {
     private Button stateButton;
 
     @FXML
-    private VBox test;
+    private VBox container;
 
     @FXML
     public void initialize() {
@@ -39,7 +38,7 @@ public class SimulationController {
         this.map = createMap(variants);
         this.engine = new SimulationEngine(map, variants, this);
         renderGridPane();
-        test.getChildren().add(this.grid);
+        container.getChildren().add(this.grid);
 
         this.thread = new Thread(this.engine);
         this.thread.start();
@@ -81,7 +80,7 @@ public class SimulationController {
 
         for (int i = 1; i < rightX - leftX + 2; i++) {
             for (int j = 1; j < topY - bottomY + 2; j++) {
-                Node element = getObject(new Vector2d(leftX + i - 1, topY - j + 1));
+                Node element = getNode(new Vector2d(leftX + i - 1, topY - j + 1));
                 if (element != null) {
                     this.grid.add(element, i, j);
                     GridPane.setHalignment(element, HPos.CENTER);
@@ -89,7 +88,6 @@ public class SimulationController {
 
             }
         }
-        System.out.println(map.getAnimals().toString());
     }
 
     @FXML
@@ -112,12 +110,13 @@ public class SimulationController {
         };
     }
 
-    private Node getObject(Vector2d currentPosition) {
+    private Node getNode(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             StackPane stackPane = new StackPane();
             Label label = new Label(String.valueOf(this.map.getNumberOfAnimals(currentPosition)));
             Color color = getColor(this.map.getAnimals().get(currentPosition).get(0).getEnergy());
             Rectangle rectangle = new Rectangle(20, 20, color);
+
             label.setTextFill(Color.WHITE);
             stackPane.getChildren().addAll(rectangle, label);
             return stackPane;
@@ -131,7 +130,7 @@ public class SimulationController {
 
     private Color getColor(int value) {
         int MIN = 0;
-        int MAX = 60;
+        int MAX = this.variants.getStartingEnergyOfAnimals();
 
         double hue = Color.BLUE.getHue() + (Color.GREEN.getHue() - Color.BLUE.getHue()) * (value - MIN) / (MAX - MIN);
         return Color.hsb(hue, 1.0, 1.0);

@@ -1,0 +1,16 @@
+plantsVariant: toxic corpses
+plantsStartingNumber: 13123123123
+energyGain: 132123123
+growthNumber: 123123123
+width: 1111
+height: 111111111
+mapVariant: earth globe
+maxMutations: 21312
+minMutations: 0
+genomLength: 1
+mutationVariant: slight correction
+animalStartingNumber: 1
+startingEnergy: 23
+StuffedEnergy: 3123
+copulationEnergy: 123
+animalsVariant: full predestination
