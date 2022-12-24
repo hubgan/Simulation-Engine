@@ -18,6 +18,7 @@ public class World {
         /*System.out.println("Start");
         Application.launch(OptionsApplication.class, args);
         System.out.println("Stop");*/
+        Configuration.getAllNames();
 
         LinkedHashMap<String, String> map
 

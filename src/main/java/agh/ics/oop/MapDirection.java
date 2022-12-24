@@ -24,7 +24,7 @@ public enum MapDirection {
     }
 
 
-    public MapDirection genToDirection(int gen) {
+    public static MapDirection genToDirection(int gen) {
         return switch (gen) {
             case 0 -> NORTH;
             case 1 -> NORTHEAST;

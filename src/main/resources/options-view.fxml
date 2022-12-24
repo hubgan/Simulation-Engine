@@ -17,6 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="536.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.gui.OptionsController">
    <children>
       <Text layoutX="129.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Darwin Game" textAlignment="CENTER" wrappingWidth="341.8039093017578">
@@ -67,10 +68,10 @@
                   <Label text="Energy gain" GridPane.rowIndex="2" />
                   <Label text="Growth number" GridPane.rowIndex="3" />
                   <Label text="Variant" GridPane.rowIndex="4" />
-                  <ChoiceBox fx:id="plantsVariant" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="plantsStartingNumber" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="energyGain" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="growthNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ChoiceBox fx:id="plantsVariant" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Plants" textAlignment="CENTER" wrappingWidth="244.388671875">
                      <font>
                         <Font name="System Bold" size="18.0" />
@@ -183,8 +184,8 @@
          </children>
       </VBox>
       <Button layoutX="270.0" layoutY="454.0" mnemonicParsing="false" onAction="#startSimulation" text="Start" />
-      <ChoiceBox layoutX="430.0" layoutY="20.0" prefWidth="150.0" />
-      <Button layoutX="82.0" layoutY="454.0" mnemonicParsing="false" onAction="#createConfiguration" text="Create config" />
+      <ComboBox fx:id="configurationComboBox" layoutX="430.0" layoutY="20.0" prefWidth="150.0" />
+      <Button fx:id="configButton" layoutX="82.0" layoutY="454.0" mnemonicParsing="false" onAction="#createConfiguration" text="Create config" />
       <TextField fx:id="configurationName" layoutX="59.0" layoutY="497.0" />
    </children>
 </AnchorPane>

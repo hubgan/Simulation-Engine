@@ -1,18 +1,33 @@
 package agh.ics.oop;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Configuration {
     File file;
-    String name;
 
     public Configuration(String name) {
         String absolutePath = new File("").getAbsolutePath();
         this.file = new File(absolutePath + "/src/main/resources/configurations/" + name + ".txt");
-        this.name = name;
         createConfiguration();
+    }
+
+    public static ArrayList<String> getAllNames() {
+        ArrayList<String> list = new ArrayList<>();
+        String absolutePath = new File("").getAbsolutePath();
+
+        try (Stream<Path> paths = Files.walk(Paths.get(absolutePath + "/src/main/resources/configurations/"))) {
+            paths.filter(Files::isRegularFile).forEach(el -> list.add(el.getFileName().toString().replace(".txt", "")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 
     private Boolean createConfiguration() {
@@ -23,7 +38,7 @@ public class Configuration {
         }
     }
 
-    public void writeConfiguration(LinkedHashMap<String, String> configuration) {
+    public void writeConfiguration(Map<String, String> configuration) {
 
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
@@ -38,10 +53,10 @@ public class Configuration {
         }
     }
 
-    public LinkedHashMap<String, String> readConfiguration() {
+    public Map<String, String> readConfiguration() {
         BufferedReader bufferedReader;
         String record;
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
 
         try {
             bufferedReader = new BufferedReader(new FileReader(this.file));
