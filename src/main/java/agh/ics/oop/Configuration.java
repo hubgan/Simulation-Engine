@@ -23,11 +23,20 @@ public class Configuration {
         String absolutePath = new File("").getAbsolutePath();
 
         try (Stream<Path> paths = Files.walk(Paths.get(absolutePath + "/src/main/resources/configurations/"))) {
-            paths.filter(Files::isRegularFile).forEach(el -> list.add(el.getFileName().toString().replace(".txt", "")));
+            paths.filter(Files::isRegularFile).forEach(el -> list.add(removeExtension(el.getFileName().toString())));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(list);
         return list;
+    }
+
+    private static String removeExtension(String name) {
+        int i = name.indexOf('.');
+        if (i != -1) {
+            name = name.substring(0, i);
+        }
+        return name;
     }
 
     private Boolean createConfiguration() {
@@ -39,7 +48,6 @@ public class Configuration {
     }
 
     public void writeConfiguration(Map<String, String> configuration) {
-
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             for (Map.Entry<String, String> entry : configuration.entrySet()) {
@@ -71,7 +79,7 @@ public class Configuration {
                 throw new RuntimeException(e);
             }
             String[] parts = record.split(": ");
-            map.put(parts[0], parts[1]);
+            if (parts.length == 2) map.put(parts[0], parts[1]);
         }
         return map;
     }

@@ -1,17 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.gui.OptionsApplication;
-import agh.ics.oop.gui.OptionsController;
-import javafx.application.Application;
-import javafx.scene.image.Image;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Random;
 
 public class World {
     public static void main(String[] args) {
