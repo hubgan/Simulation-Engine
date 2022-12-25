@@ -39,22 +39,50 @@ public class SimulationEngine implements IEngine, Runnable {
         }
     }
 
+    public SimulationEngine(IMap map, Variants variants, Vector2d[] animalPositions, MapDirection[] mapDirections)  { // For testing purposes
+        this.map = map;
+        this.variants = variants;
+        this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
+        this.numberOfPlantsGrowEveryday = this.variants.getGrowthNumber();
+        this.numberOfGens = this.variants.getNumberOfGens();
+
+        for (int i = 0; i < this.variants.getAnimalsStartingNumber(); i++) {
+            Vector2d position = animalPositions[i];
+            MapDirection direction = mapDirections[i];
+            int[] genotype = new int[]{0};
+            Animal animal = new Animal(position, this.variants.getStartingEnergyOfAnimals(), this.map,
+                    genotype, this.variants, direction);
+            animals.add(animal);
+            this.map.place(animal);
+        }
+    }
+
     @Override
     public void run() {
-        while (animals.size() > 0 && runThread) {
+        if (simulationController == null) {
             checkDead();
             moveAnimals();
             eatPlants();
             createYoungAnimal();
             growPlants();
             System.out.println(this.map);
-            Platform.runLater(simulationController::renderGridPane);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        }
+        else {
+            while (animals.size() > 0 && runThread) {
+                checkDead();
+                moveAnimals();
+                eatPlants();
+                createYoungAnimal();
+                growPlants();
+                System.out.println(this.map);
+                Platform.runLater(simulationController::renderGridPane);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
+            }
         }
     }
     public void changeThreadState() {
@@ -84,6 +112,7 @@ public class SimulationEngine implements IEngine, Runnable {
         for (Animal animal : this.animals) {
             animal.move();
             animal.decreaseEnergy(this.variants.getEnergyLost());
+            animal.increaseOld();
         }
     }
 
@@ -112,6 +141,9 @@ public class SimulationEngine implements IEngine, Runnable {
             if (animalsList.size() > 1 && animalsList.get(0).getEnergy() > this.energyNeededToCopulate) {
                 Animal strongerAnimal = animalsList.get(0);
                 Animal weakerAnimal = animalsList.get(1);
+
+                strongerAnimal.increaseKids();
+                weakerAnimal.increaseKids();
 
                 int lowerPercent = weakerAnimal.getEnergy() * 100 / (weakerAnimal.getEnergy() + strongerAnimal.getEnergy());
                 int higherPercent = 100 - lowerPercent;

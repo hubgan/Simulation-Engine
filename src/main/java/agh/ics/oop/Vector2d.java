@@ -27,22 +27,6 @@ public class Vector2d {
         return new Vector2d(this.x + other.x, this.y + other.y);
     }
 
-    public Vector2d subtract(Vector2d other) {
-        return new Vector2d(this.x - other.x, this.y - other.y);
-    }
-
-    public Vector2d upperRight(Vector2d other) {
-        return new Vector2d(Math.max(this.x, other.x), Math.max(this.y, other.y));
-    }
-
-    public Vector2d lowerLeft(Vector2d other) {
-        return new Vector2d(Math.min(this.x, other.x), Math.min(this.y, other.y));
-    }
-
-    public Vector2d opposite() {
-        return new Vector2d(-1 * this.x, -1 * this.y);
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other)

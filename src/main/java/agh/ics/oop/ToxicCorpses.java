@@ -76,4 +76,8 @@ public class ToxicCorpses implements IGrassField {
     public HashMap<Vector2d, Plant> getPlants() {
         return this.plantsPositions;
     }
+
+    public HashMap<Vector2d, Integer> getFreePositions() {
+        return this.freePositions;
+    }
 }

@@ -15,6 +15,10 @@ public class Genotype {
         }
     }
 
+    Genotype(int[] genotype) { // For testing purposes
+        this.gens = genotype;
+    }
+
     Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint, Variants variants) {
         this.gens = new int[numberOfGens];
 

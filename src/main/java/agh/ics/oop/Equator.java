@@ -85,4 +85,8 @@ public class Equator implements IGrassField {
     public HashMap<Vector2d, Plant> getPlants() {
         return this.plantsPositions;
     }
+
+    public ArrayList<Vector2d> getFreeEquatorPositions() {
+        return this.freeEquatorPositions;
+    }
 }

@@ -17,7 +17,13 @@ public class HellMap extends AbstractWorldMap implements IMap {
     @Override
     public Vector2d correctPosition(Vector2d position) {
         if (!(position.follows(this.lowerBorder) && position.precedes(this.upperBorder))) {
-            return new Vector2d(getRandomNumber(this.width), getRandomNumber(this.height));
+            Vector2d newRandomPosition = new Vector2d(getRandomNumber(this.width), getRandomNumber(this.height));
+
+            while (position.equals(newRandomPosition)) {
+                newRandomPosition = new Vector2d(getRandomNumber(this.width), getRandomNumber(this.height));
+            }
+
+            return newRandomPosition;
         }
 
         return position;

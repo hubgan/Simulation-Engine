@@ -23,6 +23,16 @@ public class Animal {
         this.genotype = new Genotype(this.numberOfGens);
     }
 
+    public Animal(Vector2d position, int energy, IMap map, int[] genotype, Variants variants, MapDirection direction) { // For testing purposes
+        this.map = map;
+        this.position = position;
+        this.direction = direction;
+        this.energy = energy;
+        this.variants = variants;
+        this.numberOfGens = variants.getNumberOfGens();
+        this.genotype = new Genotype(genotype);
+    }
+
     public Animal(Vector2d position, IMap map, int energy,
                   int[] strongerGenotype, int[] weakerGenotype, int midPoint, Variants variants) {
         this.position = position;
@@ -87,6 +97,14 @@ public class Animal {
 
     public void decreaseEnergy(int value) {
         this.energy -= value;
+    }
+
+    public void increaseOld() {
+        this.old += 1;
+    }
+
+    public void increaseKids() {
+        this.kids += 1;
     }
 
     // Getters methods
