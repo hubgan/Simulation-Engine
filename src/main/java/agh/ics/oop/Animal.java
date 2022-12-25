@@ -61,7 +61,7 @@ public class Animal {
             case PREDESTINATION -> {
                 this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
             }
-            case CRAZY -> {
+            case MADNESS -> {
                 int randomNumber = this.getRandomNumber(10);
                 if (randomNumber < 8) {
                     this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;

@@ -25,12 +25,12 @@ public class SimulationEngine implements IEngine, Runnable {
         this.map = map;
         this.variants = variants;
         this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
-        this.numberOfPlantsGrowEveryday = this.variants.getAmountOfPlantsGrowEveryDay();
+        this.numberOfPlantsGrowEveryday = this.variants.getGrowthNumber();
         this.numberOfGens = this.variants.getNumberOfGens();
 
         Vector2d mapBoundary = this.map.getMapBorders();
 
-        for (int i = 0; i < this.variants.getStartingNumberOfAnimals(); i++) {
+        for (int i = 0; i < this.variants.getAnimalsStartingNumber(); i++) {
             Vector2d position = new Vector2d(getRandomNumber(mapBoundary.x), getRandomNumber(mapBoundary.y));
 
             Animal animal = new Animal(position, this.variants.getStartingEnergyOfAnimals(), this.map, this.variants);

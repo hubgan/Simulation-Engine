@@ -1,0 +1,16 @@
+plantsStartingNumber: 20
+energyGain: 3123
+growthNumber: 312
+plantsVariant: forested equatorial
+width: 3123
+height: 3112
+mapVariant: earth globe
+maxMutations: 13
+minMutations: 123
+genomLength: 312
+mutationVariant: full randomness
+animalStartingNumber: 312
+startingEnergy: 123
+stuffedEnergy: 313
+copulationEnergy: 313
+animalsVariant: full predestination

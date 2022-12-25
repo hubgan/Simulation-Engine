@@ -19,7 +19,7 @@ public class Equator implements IGrassField {
         this.height = height;
         this.variants = variants;
         fillPositionsList();
-        generateRandomNumberOfPlants(this.variants.getStartingNumberOfPlants());
+        generateRandomNumberOfPlants(this.variants.getPlantsStartingNumber());
     }
 
     private void fillPositionsList() {

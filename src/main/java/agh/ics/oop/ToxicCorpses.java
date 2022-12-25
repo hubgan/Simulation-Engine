@@ -17,7 +17,7 @@ public class ToxicCorpses implements IGrassField {
         this.height = height;
         this.variants = variants;
         fillPositionsList();
-        generatePlantsWithoutSort(this.variants.getStartingNumberOfPlants());
+        generatePlantsWithoutSort(this.variants.getPlantsStartingNumber());
     }
 
     public void deadAnimal(Vector2d position) {
