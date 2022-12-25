@@ -7,7 +7,7 @@
 <AnchorPane prefHeight="554.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.gui.SimulationController">
    <children>
       <Button fx:id="stateButton" layoutX="534.0" layoutY="28.0" mnemonicParsing="false" onAction="#switchSimulationState" text="Stop" />
-      <VBox fx:id="test" layoutX="29.0" layoutY="60.0" prefHeight="252.0" prefWidth="516.0" />
+      <VBox fx:id="container" layoutX="29.0" layoutY="60.0" prefHeight="252.0" prefWidth="516.0" />
 
    </children>
 </AnchorPane>

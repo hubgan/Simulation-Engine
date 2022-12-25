@@ -1,15 +1,43 @@
 package agh.ics.oop;
 
-import agh.ics.oop.gui.OptionsApplication;
-import javafx.application.Application;
-
-import java.util.Random;
+import java.util.LinkedHashMap;
 
 public class World {
     public static void main(String[] args) {
         /*System.out.println("Start");
         Application.launch(OptionsApplication.class, args);
         System.out.println("Stop");*/
+        Configuration.getAllNames();
+
+        LinkedHashMap<String, String> map
+
+                = new LinkedHashMap<>();
+
+
+
+
+        // key-value pairs
+
+        map.put("rohit", "one");
+
+        map.put("Sam", "two");
+
+        map.put("jainie", "three");
+        Configuration elo = new Configuration("elo");
+        elo.writeConfiguration(map);
+        System.out.println(elo.readConfiguration());
+        map.put("Sam", "3");
+        elo.writeConfiguration(map);
+        System.out.println(elo.readConfiguration());
+        LinkedHashMap<String, String> mapx
+
+                = new LinkedHashMap<>();
+        mapx.put("elo", "W");
+        elo.writeConfiguration(mapx);
+        System.out.println(elo.readConfiguration());
+
+
+
 
 
         /*Variants variants = new Variants(5, 5, "HellMap", "lekka korekta",

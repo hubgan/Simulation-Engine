@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.Random;
 
 public class Animal {
-    private MapDirection direction = MapDirection.NORTH.genToDirection(getRandomNumber(8));
+    private MapDirection direction = MapDirection.genToDirection(getRandomNumber(8));
     private Vector2d position;
     private final Genotype genotype;
     private final IMap map;
