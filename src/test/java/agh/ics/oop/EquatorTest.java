@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,11 +10,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class EquatorTest {
     @Test
     public void testEquatorGenerating() {
-        /*Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 1, 50,
-                3, 0, 2, 1, 2
-        );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "0");
+        variantsMap.put("animalStartingNumber", "1");
+        variantsMap.put("startingEnergy", "50");
+        variantsMap.put("copulationEnergy", "3");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         Equator equator = new Equator(variants.getWidth(), variants.getHeight(), variants);
         ArrayList<Vector2d> freeEquatorPositions = equator.getFreeEquatorPositions();
         Vector2d[] assumedFreeEquatorPositions = new Vector2d[]{
@@ -33,11 +48,8 @@ class EquatorTest {
             assertTrue(freeEquatorPositions.contains(position));
         }
 
-        variants = new Variants(
-                5, 20, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 1, 50,
-                3, 0, 2, 1, 2
-        );
+        variantsMap.replace("height", "20");
+        variants = new Variants(variantsMap);
         equator = new Equator(variants.getWidth(), variants.getHeight(), variants);
         freeEquatorPositions = equator.getFreeEquatorPositions();
         System.out.println(freeEquatorPositions);
@@ -82,6 +94,6 @@ class EquatorTest {
         assertEquals(assumedFreeEquatorPositions.length, freeEquatorPositions.size());
         for (Vector2d position: assumedFreeEquatorPositions) {
             assertTrue(freeEquatorPositions.contains(position));
-        } */
+        }
     }
 }

@@ -2,18 +2,33 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class HellMapTest {
     @Test
     public void testMapCorrectPosition() {
-        /*Variants variants = new Variants(
-                5, 5, "HellMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 1, 50,
-                3, 0, 2, 1, 2
-        );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "infernal portal");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "0");
+        variantsMap.put("animalStartingNumber", "1");
+        variantsMap.put("startingEnergy", "50");
+        variantsMap.put("copulationEnergy", "3");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new HellMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[]{new Vector2d(1, 2)};
         MapDirection[] mapDirections = new MapDirection[]{MapDirection.EAST};
@@ -28,6 +43,6 @@ class HellMapTest {
             assertEquals(position, animal.getPosition());
         }
         engine.run();
-        assertNotEquals(new Vector2d(4, 2), animal.getPosition());*/
+        assertNotEquals(new Vector2d(4, 2), animal.getPosition());
     }
 }

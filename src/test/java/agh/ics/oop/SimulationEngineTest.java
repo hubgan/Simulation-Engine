@@ -2,19 +2,33 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationEngineTest {
     // Testing increasing old, decreasing energy of animals and checking checkDead function
-    /*@Test
+    @Test
     public void testSimulationEngine() {
-        Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 2, 6,
-                3, 0, 2, 1, 2
-                );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "0");
+        variantsMap.put("animalStartingNumber", "2");
+        variantsMap.put("startingEnergy", "6");
+        variantsMap.put("copulationEnergy", "3");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 3)};
         MapDirection[] mapDirections = new MapDirection[]{MapDirection.NORTH, MapDirection.NORTH};
@@ -25,7 +39,7 @@ class SimulationEngineTest {
             engine.run();
             for (Vector2d position: animalsLists.keySet()) {
                 for (Animal animal: animalsLists.get(position)) {
-                    assertEquals(variants.getStartingEnergyOfAnimals() - i * variants.getEnergyLost(), animal.getEnergy());
+                    assertEquals(variants.getAnimalStartingEnergy() - i * variants.getEnergyLost(), animal.getEnergy());
                     assertEquals(i, animal.getOld());
                 }
             }
@@ -45,11 +59,24 @@ class SimulationEngineTest {
     // before and after copulation
     @Test
     public void testCopulation() {
-        Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 2, 10,
-                2, 0, 2, 1, 2
-        );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "0");
+        variantsMap.put("animalStartingNumber", "2");
+        variantsMap.put("startingEnergy", "10");
+        variantsMap.put("copulationEnergy", "2");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 3)};
         MapDirection[] mapDirections = new MapDirection[]{MapDirection.NORTH, MapDirection.WEST};
@@ -75,14 +102,27 @@ class SimulationEngineTest {
         assertEquals(assumedSumOfEnergyAfter, sumOfEnergyAfter);
     }
 
-    // Testing amount of plants that should grow everyday
+//    // Testing amount of plants that should grow everyday
     @Test
     public void testPlantsGrowEveryDay() {
-        Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 1, 0, 10,
-                2, 0, 2, 1, 2
-        );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "1");
+        variantsMap.put("animalStartingNumber", "0");
+        variantsMap.put("startingEnergy", "10");
+        variantsMap.put("copulationEnergy", "2");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[]{};
         MapDirection[] mapDirections = new MapDirection[]{};
@@ -104,11 +144,8 @@ class SimulationEngineTest {
             assertEquals(i * variants.getGrowthNumber(), numberOfPlants);
         }
 
-        variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 5, 0, 10,
-                2, 0, 2, 1, 2
-        );
+        variantsMap.replace("growthNumber", "5");
+        variants = new Variants(variantsMap);
         map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         engine = new SimulationEngine(map, variants, animalPositions, mapDirections);
         plants = map.getPlants();
@@ -131,11 +168,24 @@ class SimulationEngineTest {
 
     @Test
     public void testEatPlants() {
-        Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 25, 2, 2, 10,
-                2, 0, 2, 1, 2
-        );
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "25");
+        variantsMap.put("growthNumber", "2");
+        variantsMap.put("animalStartingNumber", "2");
+        variantsMap.put("startingEnergy", "10");
+        variantsMap.put("copulationEnergy", "2");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 2)};
         MapDirection[] mapDirections = new MapDirection[]{MapDirection.NORTH, MapDirection.NORTH};
@@ -157,5 +207,5 @@ class SimulationEngineTest {
                 }
             }
         }
-    }*/
+    }
 }

@@ -2,20 +2,33 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ToxicCorpsesTest {
-    //@Test
-    /*public void testAnimalDead() {
-        Variants variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 100, 6,
-                3, 0, 2, 1, 10
-        );
+    @Test
+    public void testAnimalDead() {
+        Map<String, String> variantsMap = new HashMap<>();
+        variantsMap.put("width", "5");
+        variantsMap.put("height", "5");
+        variantsMap.put("mapVariant", "earth globe");
+        variantsMap.put("mutationVariant", "slight correction");
+        variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsStartingNumber", "0");
+        variantsMap.put("growthNumber", "0");
+        variantsMap.put("animalStartingNumber", "100");
+        variantsMap.put("startingEnergy", "6");
+        variantsMap.put("copulationEnergy", "3");
+        variantsMap.put("minMutations", "0");
+        variantsMap.put("maxMutations", "2");
+        variantsMap.put("genomLength", "1");
+        variantsMap.put("moveEnergyLoss", "10");
+        variantsMap.put("copulationEnergyLoss", "4");
+        Variants variants = new Variants(variantsMap);
         IMap map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         Vector2d[] animalPositions = new Vector2d[100];
         MapDirection[] mapDirections = new MapDirection[100];
@@ -40,11 +53,8 @@ class ToxicCorpsesTest {
 
         assertEquals(100, deadCount);
 
-       variants = new Variants(
-                5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
-                2, 0, 0, 3, 6,
-                3, 0, 2, 1, 10
-        );
+        variantsMap.replace("animalStartingNumber", "3");
+        variants = new Variants(variantsMap);
         map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         animalPositions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(2, 2), new Vector2d(2, 2)};
         mapDirections = new MapDirection[]{MapDirection.NORTH, MapDirection.NORTH, MapDirection.NORTH};
@@ -55,5 +65,5 @@ class ToxicCorpsesTest {
 
         freePositions = ((ToxicCorpses) map.getGarden()).getFreePositions();
         assertEquals(3, freePositions.get(new Vector2d(2, 3)));
-    }*/
+    }
 }
