@@ -36,8 +36,7 @@ public class Genotype {
     private void mutation(Variants variants) {
         switch (variants.getMutationVariant()) {
             case FULLRANDOM -> {
-
-                int randomNumber = generateRandomNumber(variants.getMaximumNumberOfMutations(), variants.getMinimumNumberOfMutations());
+                int randomNumber = generateRandomNumber(variants.getMaxMutations(), variants.getMinMutations());
                 for (int i = 0; i < randomNumber; i++) {
                     int randomGen = generateRandomNumber(this.gens.length - 1, 0);
                     int oldGen = this.gens[randomGen];
@@ -48,7 +47,7 @@ public class Genotype {
                 }
             }
             case SLIGHTCHANGES -> {
-                int randomNumber = generateRandomNumber(variants.getMaximumNumberOfMutations(), variants.getMinimumNumberOfMutations());
+                int randomNumber = generateRandomNumber(variants.getMaxMutations(), variants.getMinMutations());
 
                 for (int i = 0; i < randomNumber; i++) {
                     int randomGen = generateRandomNumber(this.gens.length - 1, 0);

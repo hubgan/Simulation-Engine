@@ -9,22 +9,23 @@ import java.util.Map;
 public class Variants {
     private final int width;
     private final int height;
-    private  String mapVariant = null;
-    private  MapVariants mapVariant2 = MapVariants.HELLMAP;
-    private  String mutationVariant = "test";
-    private  MutationVariants mutationVariant2 = MutationVariants.FULLRANDOM;
-    private  String behaviourVariant = "test";
-    private  BehaviourVariants behaviourVariant2 = BehaviourVariants.MADNESS;
+    /*private  String mapVariant = null;*/
+    private final MapVariants mapVariant;
+    /*private  String mutationVariant = "test";*/
+    private final MutationVariants mutationVariant;
+    /*private  String behaviourVariant = "test";*/
+    private final BehaviourVariants behaviourVariant;
     private final int plantEnergyGain;
     private final int plantsStartingNumber;
     private final int growthNumber;
     private final int animalsStartingNumber;
-    private final int startingEnergyOfAnimals;
-    private final int energyNeededToCopulation;
-    private final int minimumNumberOfMutations;
-    private final int maximumNumberOfMutations;
-    private final int numberOfGens;
+    private final int animalStartingEnergy;
+    private final int copulationEnergy;
+    private final int minMutations;
+    private final int maxMutations;
+    private final int genomLength;
     private final int energyLost;
+    private final int copulationEnergyLost;
 
 
 
@@ -32,7 +33,7 @@ public class Variants {
 
 
 
-    public Variants(int width, int height, String mapVariant, String mutationVariant, String behaviourVariant
+   /* public Variants(int width, int height, String mapVariant, String mutationVariant, String behaviourVariant
             , int plantEnergyGain, int startingNumberOfPlants,
                     int amountOfPlantsGrowEveryDay,
                     int startingNumberOfAnimals, int startingEnergyOfAnimals, int energyNeededToCopulation,
@@ -52,49 +53,24 @@ public class Variants {
         this.maximumNumberOfMutations = maximumNumberOfMutations;
         this.numberOfGens = numberOfGens;
         this.energyLost = energyLost;
-    }
+    }*/
     public Variants(Map<String,String> map) {
         this.width = Integer.parseInt(map.get("width")) ;
         this.height = Integer.parseInt(map.get("height"));
-        this.mapVariant2 = MapVariants.stringToEnum(map.get("mapVariant"));
-        this.mutationVariant2 = MutationVariants.stringToEnum(map.get("mutationVariant"));
-        this.behaviourVariant2 = BehaviourVariants.stringToEnum(map.get("animalsVariant"));
+        this.mapVariant = MapVariants.stringToEnum(map.get("mapVariant"));
+        this.mutationVariant = MutationVariants.stringToEnum(map.get("mutationVariant"));
+        this.behaviourVariant = BehaviourVariants.stringToEnum(map.get("animalsVariant"));
         this.plantEnergyGain = Integer.parseInt(map.get("energyGain"));
         this.plantsStartingNumber = Integer.parseInt(map.get("plantsStartingNumber"));
         this.growthNumber = Integer.parseInt(map.get("growthNumber"));
-        this.startingEnergyOfAnimals = Integer.parseInt(map.get("startingEnergy"));
+        this.animalStartingEnergy = Integer.parseInt(map.get("startingEnergy"));
         this.animalsStartingNumber = Integer.parseInt(map.get("animalStartingNumber"));
-        this.energyNeededToCopulation = Integer.parseInt(map.get("copulationEnergy"));
-        this.minimumNumberOfMutations = Integer.parseInt(map.get("minMutations"));
-        this.maximumNumberOfMutations = Integer.parseInt(map.get("maxMutations"));
-        this.numberOfGens = Integer.parseInt(map.get("genomLength"));
-        this.energyLost = 1;
-
-    }
-    
-
-    public MapVariants getMapVariant() {
-        return switch (this.mapVariant) {
-            case "EarthMap" -> MapVariants.EARTHMAP;
-            case "HellMap" -> MapVariants.HELLMAP;
-            default -> MapVariants.EARTHMAP;
-        };
-    }
-
-    public MutationVariants getMutationVariant() {
-        return switch (this.mutationVariant) {
-            case "pełna losowość" -> MutationVariants.FULLRANDOM;
-            case "lekka korekta" -> MutationVariants.SLIGHTCHANGES;
-            default -> MutationVariants.FULLRANDOM;
-        };
-    }
-
-    public BehaviourVariants getBehaviourVariant() {
-        return switch (this.behaviourVariant) {
-            case "pełna predestynacja" -> BehaviourVariants.PREDESTINATION;
-            case "nieco szaleństwa" -> BehaviourVariants.MADNESS;
-            default -> BehaviourVariants.PREDESTINATION;
-        };
+        this.copulationEnergy = Integer.parseInt(map.get("copulationEnergy"));
+        this.minMutations = Integer.parseInt(map.get("minMutations"));
+        this.maxMutations = Integer.parseInt(map.get("maxMutations"));
+        this.genomLength = Integer.parseInt(map.get("genomLength"));
+        this.copulationEnergyLost = Integer.parseInt(map.get("copulationEnergyLoss"));
+        this.energyLost = Integer.parseInt(map.get("moveEnergyLoss"));
     }
 
     public int getWidth() {
@@ -121,27 +97,43 @@ public class Variants {
         return this.animalsStartingNumber;
     }
 
-    public int getStartingEnergyOfAnimals() {
-        return this.startingEnergyOfAnimals;
+    public int getAnimalStartingEnergy() {
+        return this.animalStartingEnergy;
     }
 
-    public int getEnergyNeededToCopulation() {
-        return this.energyNeededToCopulation;
+    public int getCopulationEnergy() {
+        return this.copulationEnergy;
     }
 
-    public int getMinimumNumberOfMutations() {
-        return this.minimumNumberOfMutations;
+    public int getMinMutations() {
+        return this.minMutations;
     }
 
-    public int getMaximumNumberOfMutations() {
-        return this.maximumNumberOfMutations;
+    public int getMaxMutations() {
+        return this.maxMutations;
     }
 
-    public int getNumberOfGens() {
-        return this.numberOfGens;
+    public int getGenomLength() {
+        return this.genomLength;
     }
 
     public int getEnergyLost() {
         return this.energyLost;
+    }
+
+    public int getCopulationEnergyLost() {
+        return copulationEnergyLost;
+    }
+
+    public BehaviourVariants getBehaviourVariant() {
+        return behaviourVariant;
+    }
+
+    public MapVariants getMapVariant() {
+        return mapVariant;
+    }
+
+    public MutationVariants getMutationVariant() {
+        return mutationVariant;
     }
 }

@@ -60,11 +60,11 @@ public class World {
         System.out.println(map.getPlants());*/
     }
 
-    private static IMap createMap(Variants variants) {
+  /*  private static IMap createMap(Variants variants) {
         return switch (variants.getMapVariant()) {
             case EARTHMAP -> new EarthMap(variants.getWidth(), variants.getHeight(), variants);
             case HELLMAP -> new HellMap(variants.getWidth(), variants.getHeight(), variants);
             default -> new EarthMap(variants.getWidth(), variants.getHeight(), variants);
         };
-    }
+    }*/
 }

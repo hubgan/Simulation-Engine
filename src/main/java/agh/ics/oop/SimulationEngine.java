@@ -24,16 +24,16 @@ public class SimulationEngine implements IEngine, Runnable {
         this.simulationController = simulationController;
         this.map = map;
         this.variants = variants;
-        this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
+        this.energyNeededToCopulate = this.variants.getCopulationEnergy();
         this.numberOfPlantsGrowEveryday = this.variants.getGrowthNumber();
-        this.numberOfGens = this.variants.getNumberOfGens();
+        this.numberOfGens = this.variants.getGenomLength();
 
         Vector2d mapBoundary = this.map.getMapBorders();
 
         for (int i = 0; i < this.variants.getAnimalsStartingNumber(); i++) {
             Vector2d position = new Vector2d(getRandomNumber(mapBoundary.x), getRandomNumber(mapBoundary.y));
 
-            Animal animal = new Animal(position, this.variants.getStartingEnergyOfAnimals(), this.map, this.variants);
+            Animal animal = new Animal(position, this.variants.getAnimalStartingEnergy(), this.map, this.variants);
             animals.add(animal);
             this.map.place(animal);
         }
@@ -42,15 +42,15 @@ public class SimulationEngine implements IEngine, Runnable {
     public SimulationEngine(IMap map, Variants variants, Vector2d[] animalPositions, MapDirection[] mapDirections)  { // For testing purposes
         this.map = map;
         this.variants = variants;
-        this.energyNeededToCopulate = this.variants.getEnergyNeededToCopulation();
+        this.energyNeededToCopulate = this.variants.getCopulationEnergy();
         this.numberOfPlantsGrowEveryday = this.variants.getGrowthNumber();
-        this.numberOfGens = this.variants.getNumberOfGens();
+        this.numberOfGens = this.variants.getGenomLength();
 
         for (int i = 0; i < this.variants.getAnimalsStartingNumber(); i++) {
             Vector2d position = animalPositions[i];
             MapDirection direction = mapDirections[i];
             int[] genotype = new int[]{0};
-            Animal animal = new Animal(position, this.variants.getStartingEnergyOfAnimals(), this.map,
+            Animal animal = new Animal(position, this.variants.getAnimalStartingEnergy(), this.map,
                     genotype, this.variants, direction);
             animals.add(animal);
             this.map.place(animal);
@@ -74,7 +74,6 @@ public class SimulationEngine implements IEngine, Runnable {
                 eatPlants();
                 createYoungAnimal();
                 growPlants();
-                System.out.println(this.map);
                 Platform.runLater(simulationController::renderGridPane);
                 try {
                     Thread.sleep(500);

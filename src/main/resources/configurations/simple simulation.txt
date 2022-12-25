@@ -1,0 +1,17 @@
+plantsStartingNumber: 1
+energyGain: 1
+growthNumber: 1
+plantsVariant: forested equatorial
+width: 6
+height: 6
+mapVariant: earth globe
+maxMutations: 3
+minMutations: 3
+genomLength: 5
+mutationVariant: full randomness
+animalStartingNumber: 2
+startingEnergy: 50
+moveEnergyLoss: 1
+copulationEnergyLoss: 20
+copulationEnergy: 20
+animalsVariant: full predestination

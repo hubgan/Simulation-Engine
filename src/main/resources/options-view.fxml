@@ -160,23 +160,27 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <TextField fx:id="animalStartingNumber" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="startingEnergy" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="moveEnergyLoss" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Starting number" GridPane.rowIndex="1" />
                   <Label text="Starting energy" GridPane.rowIndex="2" />
-                  <Label text="Stuffed energy" GridPane.rowIndex="3" />
+                  <Label text="Copulation loss" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Animals" textAlignment="CENTER" wrappingWidth="244.388671875">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Text>
-                  <Label text="Copulation energy" GridPane.rowIndex="4" />
-                  <TextField fx:id="stuffedEnergy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="copulationEnergy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label text="Variant" GridPane.rowIndex="5" />
-                  <ChoiceBox fx:id="animalsVariant" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="Copulation energy" GridPane.rowIndex="5" />
+                  <TextField fx:id="copulationEnergyLoss" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="copulationEnergy" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="Variant" GridPane.rowIndex="6" />
+                  <ChoiceBox fx:id="animalsVariant" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                  <Label prefHeight="18.0" prefWidth="119.0" text="Move energy loss" GridPane.rowIndex="3" />
                </children>
                <padding>
                   <Insets top="40.0" />

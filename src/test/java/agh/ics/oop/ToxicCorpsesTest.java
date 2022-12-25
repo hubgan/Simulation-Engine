@@ -9,8 +9,8 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ToxicCorpsesTest {
-    @Test
-    public void testAnimalDead() {
+    //@Test
+    /*public void testAnimalDead() {
         Variants variants = new Variants(
                 5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
                 2, 0, 0, 100, 6,
@@ -55,5 +55,5 @@ class ToxicCorpsesTest {
 
         freePositions = ((ToxicCorpses) map.getGarden()).getFreePositions();
         assertEquals(3, freePositions.get(new Vector2d(2, 3)));
-    }
+    }*/
 }

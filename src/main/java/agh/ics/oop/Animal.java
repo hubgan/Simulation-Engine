@@ -19,7 +19,7 @@ public class Animal {
         this.position = position;
         this.energy = energy;
         this.variants = variants;
-        this.numberOfGens = variants.getNumberOfGens();
+        this.numberOfGens = variants.getGenomLength();
         this.genotype = new Genotype(this.numberOfGens);
     }
 
@@ -29,7 +29,7 @@ public class Animal {
         this.direction = direction;
         this.energy = energy;
         this.variants = variants;
-        this.numberOfGens = variants.getNumberOfGens();
+        this.numberOfGens = variants.getGenomLength();
         this.genotype = new Genotype(genotype);
     }
 
@@ -39,7 +39,7 @@ public class Animal {
         this.map = map;
         this.energy = energy;
         this.variants = variants;
-        this.numberOfGens = this.variants.getNumberOfGens();
+        this.numberOfGens = this.variants.getGenomLength();
 
         if (new Random().nextInt(2) == 0) {
             this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint,

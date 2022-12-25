@@ -32,12 +32,8 @@ public class SimulationController {
     @FXML
     public void initialize(Variants test) {
 
-        this.test = variants;
         this.isStarted = true;
-        this.variants = new Variants(5, 5, "HellMap", "lekka korekta",
-                "nieco szaleństwa", 1, 2, 1
-                , 4, 50, 5, 0,
-                2, 5, 2);
+        this.variants = test;
         this.map = createMap(variants);
         this.engine = new SimulationEngine(map, variants, this);
         renderGridPane();
@@ -134,7 +130,7 @@ public class SimulationController {
 
     private Color getColor(int value) {
         int MIN = 0;
-        int MAX = this.variants.getStartingEnergyOfAnimals();
+        int MAX = this.variants.getAnimalStartingEnergy();
 
         double hue = Color.BLUE.getHue() + (Color.GREEN.getHue() - Color.BLUE.getHue()) * (value - MIN) / (MAX - MIN);
         return Color.hsb(hue, 1.0, 1.0);

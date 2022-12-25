@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationEngineTest {
     // Testing increasing old, decreasing energy of animals and checking checkDead function
-    @Test
+    /*@Test
     public void testSimulationEngine() {
         Variants variants = new Variants(
                 5, 5, "EarthMap", "lekka korekta", "pełna predestynacja",
@@ -157,5 +157,5 @@ class SimulationEngineTest {
                 }
             }
         }
-    }
+    }*/
 }

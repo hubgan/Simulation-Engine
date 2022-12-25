@@ -75,6 +75,7 @@ public class OptionsController {
         configurationComboBox.getItems().addAll(Configuration.getAllNames());
 
         configurationComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            warning.setText("");
             if (newValue.equals("no configuration")) {
                 clearAllValues();
                 configurationLabel.setVisible(true);
