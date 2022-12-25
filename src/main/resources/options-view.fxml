@@ -173,7 +173,7 @@
                      </font>
                   </Text>
                   <Label text="Copulation energy" GridPane.rowIndex="4" />
-                  <TextField fx:id="StuffedEnergy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="stuffedEnergy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="copulationEnergy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Variant" GridPane.rowIndex="5" />
                   <ChoiceBox fx:id="animalsVariant" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -184,7 +184,7 @@
             </GridPane>
          </children>
       </VBox>
-      <Button layoutX="276.0" layoutY="531.0" mnemonicParsing="false" onAction="#startSimulation" text="Start" />
+      <Button layoutX="273.0" layoutY="510.0" mnemonicParsing="false" onAction="#startSimulation" text="Start" />
       <HBox layoutX="68.0" layoutY="78.0" prefHeight="31.0" prefWidth="524.0">
          <children>
             <ComboBox fx:id="configurationComboBox" prefHeight="40.0" prefWidth="150.0" />
@@ -208,5 +208,6 @@
             </HBox>
          </children>
       </HBox>
+      <Label fx:id="warning" layoutX="228.0" layoutY="558.0" textFill="#eb0a0a" />
    </children>
 </AnchorPane>

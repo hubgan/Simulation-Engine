@@ -2,6 +2,7 @@ package agh.ics.oop.gui;
 
 
 import agh.ics.oop.Configuration;
+import agh.ics.oop.Variants;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,7 @@ public class OptionsController {
     private Button configButton;
     @FXML
     private Label configurationLabel;
+    @FXML private Label warning;
 
     UnaryOperator<Change> integerFilter = change -> {
         String input = change.getText();
@@ -55,6 +57,7 @@ public class OptionsController {
         setIntegerFilter(leftBottomGrid.getChildren());
         setIntegerFilter(rightTopGrid.getChildren());
         setIntegerFilter(rightBottomGrid.getChildren());
+
         plantsVariant.getItems().addAll("forested equatorial", "toxic corpses");
         plantsVariant.setValue("forested equatorial");
 
@@ -72,28 +75,44 @@ public class OptionsController {
         configurationComboBox.getItems().addAll(Configuration.getAllNames());
 
         configurationComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (configurationComboBox.getValue().equals("no configuration")) {
+            if (newValue.equals("no configuration")) {
                 clearAllValues();
                 configurationLabel.setVisible(true);
                 configurationName.setVisible(true);
                 configButton.setText("Create config");
             } else {
-                System.out.println(configurationComboBox.getValue());
-                setAllValues(configurationComboBox.getValue());
+                setAllValues(newValue);
                 configurationLabel.setVisible(false);
                 configurationName.setVisible(false);
+                configurationName.setText(newValue);
                 configButton.setText("Edit config");
             }
         });
     }
+    private Boolean checkIfAllFiled() {
+        for (String value: getAllValues().values()) {
+            if (value.equals("")) return false;
+        }
+        return true;
+    }
     @FXML
     protected void startSimulation() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/simulation-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setTitle("New Window");
-        stage.setScene(scene);
-        stage.show();
+        if (checkIfAllFiled()) {
+            warning.setText("");
+
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/simulation-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("New Window");
+            stage.setScene(scene);
+            ((SimulationController) fxmlLoader.getController()).initialize(new Variants(getAllValues()));
+            stage.show();
+        } else {
+            warning.setText("All values must be filled!");
+        }
+
+
+
     }
     @FXML
     protected void createConfiguration() {

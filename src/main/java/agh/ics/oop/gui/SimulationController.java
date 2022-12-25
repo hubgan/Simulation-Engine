@@ -21,6 +21,7 @@ public class SimulationController {
     private final int cellHeight = 50;
     private final int cellWidth = 50;
     private Thread thread;
+    private Variants test;
 
     @FXML
     private Button stateButton;
@@ -29,7 +30,9 @@ public class SimulationController {
     private VBox container;
 
     @FXML
-    public void initialize() {
+    public void initialize(Variants test) {
+
+        this.test = variants;
         this.isStarted = true;
         this.variants = new Variants(5, 5, "HellMap", "lekka korekta",
                 "nieco szaleństwa", 1, 2, 1
@@ -39,10 +42,11 @@ public class SimulationController {
         this.engine = new SimulationEngine(map, variants, this);
         renderGridPane();
         container.getChildren().add(this.grid);
-
+        System.out.println(this.test);
         this.thread = new Thread(this.engine);
         this.thread.start();
     }
+
 
     public void renderGridPane() {
         this.grid.setGridLinesVisible(false);
