@@ -14,6 +14,7 @@ public class SimulationEngine implements IEngine, Runnable {
     private final int energyNeededToCopulate;
     private final int numberOfPlantsGrowEveryday;
     private final int numberOfGens;
+    private int simulationTime = 0;
     private SimulationController simulationController;
 
     private final ArrayList<Animal> deadAnimals = new ArrayList<>();
@@ -65,6 +66,7 @@ public class SimulationEngine implements IEngine, Runnable {
             eatPlants();
             createYoungAnimal();
             growPlants();
+            incrementSimulationTime();
             System.out.println(this.map);
         }
         else {
@@ -74,6 +76,8 @@ public class SimulationEngine implements IEngine, Runnable {
                 eatPlants();
                 createYoungAnimal();
                 growPlants();
+                incrementSimulationTime();
+                Platform.runLater(simulationController::updateChart);
                 Platform.runLater(simulationController::renderGridPane);
                 try {
                     Thread.sleep(500);
@@ -168,7 +172,23 @@ public class SimulationEngine implements IEngine, Runnable {
         this.map.generateRandomNumberOfPlants(this.numberOfPlantsGrowEveryday);
     }
 
+    private void incrementSimulationTime() {
+        this.simulationTime += 1;
+    }
+
     private int getRandomNumber(int bound) {
         return random.nextInt(bound);
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return this.animals;
+    }
+
+    public ArrayList<Animal> getDeadAnimals() {
+        return this.deadAnimals;
+    }
+
+    public int getSimulationTime() {
+        return this.simulationTime;
     }
 }

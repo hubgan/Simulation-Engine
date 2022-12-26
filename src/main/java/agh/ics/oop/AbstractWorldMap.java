@@ -14,7 +14,7 @@ public abstract class AbstractWorldMap implements IMap {
     AbstractWorldMap(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
-        this.garden = new ToxicCorpses(this.width, this.height, variants);
+        this.garden = new Equator(this.width, this.height, variants);
     }
 
     @Override

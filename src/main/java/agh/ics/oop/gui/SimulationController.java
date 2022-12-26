@@ -4,6 +4,9 @@ import agh.ics.oop.*;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -18,10 +21,20 @@ public class SimulationController {
     private Variants variants;
     private IMap map;
     private SimulationEngine engine;
-    private final int cellHeight = 50;
-    private final int cellWidth = 50;
+    private Statistics statistics;
+    private double cellHeight = 50;
+    private double cellWidth = 50;
     private Thread thread;
     private Variants test;
+
+    // charts
+    private LineChart<Number, Number> lineChart;
+    final int CHART_SIZE = 10;
+    XYChart.Series<Number, Number> numberOfAnimalsSeries = new XYChart.Series<>();
+    XYChart.Series<Number, Number> numberOfPlantsSeries = new XYChart.Series<>();
+    XYChart.Series<Number, Number> numberOfFreeFieldsSeries = new XYChart.Series<>();
+    XYChart.Series<Number, Number> numberOfAverageEnergySeries = new XYChart.Series<>();
+    XYChart.Series<Number, Number> numberOfAverageLifeTimeSeries = new XYChart.Series<>();
 
     @FXML
     private Button stateButton;
@@ -30,19 +43,100 @@ public class SimulationController {
     private VBox container;
 
     @FXML
-    public void initialize(Variants test) {
+    private VBox chart;
 
+    @FXML
+    public void initialize(Variants test) {
         this.isStarted = true;
         this.variants = test;
         this.map = createMap(variants);
-        this.engine = new SimulationEngine(map, variants, this);
+        this.engine = new SimulationEngine(this.map, this.variants, this);
+        this.statistics = new Statistics(this.map, this.engine);
         renderGridPane();
-        container.getChildren().add(this.grid);
+//        initMapSize();
+        renderChart();
+        updateChart();
+        this.container.getChildren().add(this.grid);
+        this.chart.getChildren().add(this.lineChart);
         System.out.println(this.test);
         this.thread = new Thread(this.engine);
         this.thread.start();
     }
 
+    private void initMapSize() {
+        this.cellWidth = this.container.getPrefWidth() / (this.map.getWidth() - 1);
+        this.cellHeight = this.container.getPrefHeight() / (this.map.getHeight() - 1);
+    }
+
+    private void renderChart() {
+        // Defining axis
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Days");
+        xAxis.setAnimated(false);
+        // Show only last 10 values on chart
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(-1);
+        xAxis.setUpperBound(10);
+        xAxis.setTickUnit(1);
+
+        yAxis.setLabel("Quantity");
+        yAxis.setAnimated(false);
+
+        // Creating line chart
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle("Statistics");
+        lineChart.setAnimated(false);
+
+        // Defining series to display data
+        this.numberOfAnimalsSeries.setName("Number of Animals");
+        this.numberOfPlantsSeries.setName("Number of Plants");
+        this.numberOfFreeFieldsSeries.setName("Number of Free Fields");
+        this.numberOfAverageEnergySeries.setName("Average Energy of Living Animals");
+        this.numberOfAverageLifeTimeSeries.setName("Average Life Time of Dead Animals");
+
+//        lineChart.getData().add(this.numberOfAnimalsSeries);
+//        lineChart.getData().add(this.numberOfPlantsSeries);
+//        lineChart.getData().add(this.numberOfFreeFieldsSeries);
+//        lineChart.getData().add(this.numberOfAverageEnergySeries);
+//        lineChart.getData().add(this.numberOfAverageLifeTimeSeries);
+        lineChart.getData().addAll(
+          this.numberOfAnimalsSeries,
+          this.numberOfPlantsSeries,
+          this.numberOfFreeFieldsSeries,
+          this.numberOfAverageEnergySeries,
+          this.numberOfAverageLifeTimeSeries
+        );
+
+        this.lineChart = lineChart;
+    }
+
+    public void updateChart() {
+        int simulationTime = this.engine.getSimulationTime();
+        int numberOfAnimals = this.statistics.getNumberOfAnimals();
+        int numberOfPlants = this.statistics.getNumberOfPlants();
+        int numberOfFreeFields = this.statistics.getNumberOfFreeFields();
+        float averageEnergy = this.statistics.getAverageEnergy();
+        float averageLifeTime = this.statistics.getAverageLifeTime();
+        this.numberOfAnimalsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfAnimals));
+        this.numberOfPlantsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfPlants));
+        this.numberOfFreeFieldsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfFreeFields));
+        this.numberOfAverageEnergySeries.getData().add(new XYChart.Data<>(simulationTime, averageEnergy));
+        this.numberOfAverageLifeTimeSeries.getData().add(new XYChart.Data<>(simulationTime, averageLifeTime));
+
+        if (this.numberOfAnimalsSeries.getData().size() > CHART_SIZE) {
+            // Show only last 10 values on chart
+            NumberAxis xAxis = ((NumberAxis) this.lineChart.getXAxis());
+            xAxis.setLowerBound(xAxis.getLowerBound() + 1);
+            xAxis.setUpperBound(xAxis.getUpperBound() + 1);
+
+            this.numberOfAnimalsSeries.getData().remove(0);
+            this.numberOfPlantsSeries.getData().remove(0);
+            this.numberOfFreeFieldsSeries.getData().remove(0);
+            this.numberOfAverageEnergySeries.getData().remove(0);
+            this.numberOfAverageLifeTimeSeries.getData().remove(0);
+        }
+    }
 
     public void renderGridPane() {
         this.grid.setGridLinesVisible(false);
