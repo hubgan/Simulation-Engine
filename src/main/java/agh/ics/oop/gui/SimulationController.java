@@ -13,6 +13,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SimulationController {
@@ -25,7 +30,7 @@ public class SimulationController {
     private double cellHeight = 50;
     private double cellWidth = 50;
     private Thread thread;
-    private Variants test;
+    private Animal targetedAnimal;
 
     // charts
     private LineChart<Number, Number> lineChart;
@@ -44,12 +49,44 @@ public class SimulationController {
 
     @FXML
     private VBox chart;
+    @FXML
+    private VBox targetedVBox;
+    @FXML
+    private Button stopObserving;
 
     @FXML
-    public void initialize(Variants test) {
+    protected void clearTargetedAnimal() {
+        this.targetedAnimal = null;
+        clearTargetedVBox();
+        stopObserving.setVisible(false);
+    }
+
+
+    public void addTargetedVBox() {
+        clearTargetedVBox();
+        List<Label> list = new ArrayList<>();
+        list.add(new Label("Energy: " + targetedAnimal.getEnergy()));
+        list.add(new Label("Genom: " + Arrays.toString(targetedAnimal.getGenotype()).replace(",", "").replace("[", "").replace("]", "").trim()));
+        list.add(new Label("Active genom: " + targetedAnimal.getGenotype()[targetedAnimal.getCurrentGenIndex()]));
+        list.add(new Label("Eaten plants: " + targetedAnimal.getEatenPlants()));
+        list.add(new Label("Children: " + targetedAnimal.getKids()));
+        list.add(new Label("Days lived: " + targetedAnimal.getOld()));
+        if (targetedAnimal.getDeadDay() != 0) {
+            list.add(new Label("Day when died: " + targetedAnimal.getDeadDay()));
+        }
+        targetedVBox.getChildren().addAll(list);
+    }
+
+    public void clearTargetedVBox() {
+        targetedVBox.getChildren().clear();
+    }
+
+    @FXML
+    public void initialize(Variants variants) {
+        stopObserving.setVisible(false);
         this.isStarted = true;
-        this.variants = test;
-        this.map = createMap(variants);
+        this.variants = variants;
+        this.map = createMap(this.variants);
         this.engine = new SimulationEngine(this.map, this.variants, this);
         this.statistics = new Statistics(this.map, this.engine);
         renderGridPane();
@@ -58,7 +95,6 @@ public class SimulationController {
         updateChart();
         this.container.getChildren().add(this.grid);
         this.chart.getChildren().add(this.lineChart);
-        System.out.println(this.test);
         this.thread = new Thread(this.engine);
         this.thread.start();
     }
@@ -100,13 +136,7 @@ public class SimulationController {
 //        lineChart.getData().add(this.numberOfFreeFieldsSeries);
 //        lineChart.getData().add(this.numberOfAverageEnergySeries);
 //        lineChart.getData().add(this.numberOfAverageLifeTimeSeries);
-        lineChart.getData().addAll(
-          this.numberOfAnimalsSeries,
-          this.numberOfPlantsSeries,
-          this.numberOfFreeFieldsSeries,
-          this.numberOfAverageEnergySeries,
-          this.numberOfAverageLifeTimeSeries
-        );
+        lineChart.getData().addAll(this.numberOfAnimalsSeries, this.numberOfPlantsSeries, this.numberOfFreeFieldsSeries, this.numberOfAverageEnergySeries, this.numberOfAverageLifeTimeSeries);
 
         this.lineChart = lineChart;
     }
@@ -182,6 +212,11 @@ public class SimulationController {
 
             }
         }
+        if (targetedAnimal != null) {
+            System.out.println(targetedAnimal.getPosition());
+            addTargetedVBox();
+        }
+
     }
 
     @FXML
@@ -204,16 +239,33 @@ public class SimulationController {
         };
     }
 
-    private Node getNode(Vector2d currentPosition) {
+    private Shape getNode(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
-            StackPane stackPane = new StackPane();
-            Label label = new Label(String.valueOf(this.map.getNumberOfAnimals(currentPosition)));
-            Color color = getColor(this.map.getAnimals().get(currentPosition).get(0).getEnergy());
-            Rectangle rectangle = new Rectangle(20, 20, color);
+            Rectangle rectangle;
 
-            label.setTextFill(Color.WHITE);
-            stackPane.getChildren().addAll(rectangle, label);
-            return stackPane;
+            Animal animal = this.map.getAnimals().get(currentPosition).get(0);
+
+            Color color = getColor(animal.getEnergy());
+            rectangle = new Rectangle(20, 20, color);
+
+            rectangle.setOnMousePressed(event -> {
+                if (!isStarted && targetedAnimal == null) {
+                    animal.changeTargeted();
+                    renderGridPane();
+                    targetedAnimal = animal;
+                    addTargetedVBox();
+                    stopObserving.setVisible(true);
+                } else if (!isStarted && animal.getTargeted()) {
+                    animal.changeTargeted();
+                    targetedAnimal = null;
+                    renderGridPane();
+                    clearTargetedVBox();
+                }
+
+            });
+
+
+            return rectangle;
         }
 
         if (this.map.getPlants().containsKey(currentPosition)) {

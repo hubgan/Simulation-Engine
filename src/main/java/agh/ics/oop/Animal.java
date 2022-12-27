@@ -5,6 +5,7 @@ import java.util.Random;
 public class Animal {
     private MapDirection direction = MapDirection.genToDirection(getRandomNumber(8));
     private Vector2d position;
+    private Boolean targeted = false;
     private final Genotype genotype;
     private final IMap map;
     private final int numberOfGens;
@@ -13,6 +14,8 @@ public class Animal {
     private int old = 0;
     private int kids = 0;
     private int currentGenIndex = 0;
+    private int eatenPlants = 0;
+    private int deadDay;
 
     public Animal(Vector2d position, int energy, IMap map, Variants variants) {
         this.map = map;
@@ -92,11 +95,13 @@ public class Animal {
     }
 
     public void eat(Plant plant) {
+        this.eatenPlants++;
         this.energy += plant.getEnergyGain();
     }
 
     public void decreaseEnergy(int value) {
         this.energy -= value;
+
     }
 
     public void increaseOld() {
@@ -139,5 +144,26 @@ public class Animal {
 
     private int getRandomNumber(int bound) {
         return new Random().nextInt(bound);
+    }
+    public Boolean getTargeted() {
+        return targeted;
+    }
+    public void changeTargeted() {
+        this.targeted = !this.targeted;
+    }
+
+    public int getCurrentGenIndex() {
+        return currentGenIndex;
+    }
+
+    public int getEatenPlants() {
+        return eatenPlants;
+    }
+
+    public int getDeadDay() {
+        return deadDay;
+    }
+    public void setDeadDay(int deadDay) {
+        this.deadDay = deadDay;
     }
 }

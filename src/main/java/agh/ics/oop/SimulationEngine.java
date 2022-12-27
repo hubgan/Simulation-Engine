@@ -102,6 +102,7 @@ public class SimulationEngine implements IEngine, Runnable {
 
         }
         for (Animal deadAnimal : toRemove) {
+            deadAnimal.setDeadDay(this.simulationTime);
             this.animals.remove(deadAnimal);
             this.map.deadAnimal(deadAnimal);
             if ((this.map.getGarden()) instanceof ToxicCorpses) {

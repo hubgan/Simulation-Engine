@@ -69,6 +69,5 @@ public class Genotype {
 
     @Override
     public String toString() {
-        return Arrays.toString(gens);
-    }
+        return Arrays.toString(gens); }
 }
