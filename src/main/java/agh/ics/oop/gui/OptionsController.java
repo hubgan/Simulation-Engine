@@ -11,10 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
+
 import javafx.scene.control.TextFormatter.Change;
+
 import java.io.IOException;
 
 public class OptionsController {
@@ -43,7 +46,8 @@ public class OptionsController {
     private Button configButton;
     @FXML
     private Label configurationLabel;
-    @FXML private Label warning;
+    @FXML
+    private Label warning;
 
     UnaryOperator<Change> integerFilter = change -> {
         String input = change.getText();
@@ -52,6 +56,7 @@ public class OptionsController {
         }
         return null;
     };
+
     public void initialize() {
         setIntegerFilter(leftTopGrid.getChildren());
         setIntegerFilter(leftBottomGrid.getChildren());
@@ -90,12 +95,14 @@ public class OptionsController {
             }
         });
     }
+
     private Boolean checkIfAllFiled() {
-        for (String value: getAllValues().values()) {
+        for (String value : getAllValues().values()) {
             if (value.equals("")) return false;
         }
         return true;
     }
+
     @FXML
     protected void startSimulation() throws IOException {
         if (checkIfAllFiled()) {
@@ -104,6 +111,11 @@ public class OptionsController {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/simulation-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
+            stage.setOnCloseRequest(e -> {
+                stage.close();
+                ((SimulationController) fxmlLoader.getController()).stopSimulation();
+
+            });
             stage.setTitle("New Window");
             stage.setScene(scene);
             ((SimulationController) fxmlLoader.getController()).initialize(new Variants(getAllValues()));
@@ -113,13 +125,14 @@ public class OptionsController {
         }
 
 
-
     }
+
     @FXML
     protected void createConfiguration() {
         Configuration configuration = new Configuration(configurationName.getText());
         configuration.writeConfiguration(getAllValues());
     }
+
     //Set methods
     @FXML
     private void setIntegerFilter(ObservableList<Node> children) {
@@ -129,6 +142,7 @@ public class OptionsController {
             }
         }
     }
+
     private void setValues(Map<String, String> configuration, ObservableList<Node> children) {
         for (Node node : children) {
             if (node instanceof TextField) {
@@ -136,6 +150,7 @@ public class OptionsController {
             }
         }
     }
+
     private void setAllValues(String name) {
         Configuration config = new Configuration(name);
         Map<String, String> configuration = config.readConfiguration();
@@ -148,6 +163,7 @@ public class OptionsController {
         mutationVariant.setValue(configuration.get(mutationVariant.getId()));
         animalsVariant.setValue(configuration.get(animalsVariant.getId()));
     }
+
     //get methods
     private void getValues(Map<String, String> configuration, ObservableList<Node> children) {
         for (Node node : children) {
@@ -159,6 +175,7 @@ public class OptionsController {
             }
         }
     }
+
     private Map<String, String> getAllValues() {
         LinkedHashMap<String, String> configuration = new LinkedHashMap<>();
 
@@ -168,6 +185,7 @@ public class OptionsController {
         getValues(configuration, rightBottomGrid.getChildren());
         return configuration;
     }
+
     // clear methods
     private void clearValues(ObservableList<Node> children) {
         for (Node node : children) {
@@ -176,6 +194,7 @@ public class OptionsController {
             }
         }
     }
+
     private void clearAllValues() {
         clearValues(leftTopGrid.getChildren());
         clearValues(leftBottomGrid.getChildren());

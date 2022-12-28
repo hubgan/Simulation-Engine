@@ -70,7 +70,7 @@ public class SimulationEngine implements IEngine, Runnable {
             System.out.println(this.map);
         }
         else {
-            while (animals.size() > 0 && runThread) {
+            while (animals.size() > 0 && simulationController.getIsStarted()) {
                 checkDead();
                 moveAnimals();
                 eatPlants();
@@ -87,9 +87,6 @@ public class SimulationEngine implements IEngine, Runnable {
 
             }
         }
-    }
-    public void changeThreadState() {
-        this.runThread = !this.runThread;
     }
 
     private void checkDead() {

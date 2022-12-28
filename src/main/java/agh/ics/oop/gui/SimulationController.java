@@ -1,6 +1,8 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
@@ -14,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,12 +56,15 @@ public class SimulationController {
     private VBox targetedVBox;
     @FXML
     private Button stopObserving;
+    @FXML
+    public void exitApplication(ActionEvent event) {
+        Platform.exit();
+    }
 
     @FXML
     protected void clearTargetedAnimal() {
         this.targetedAnimal = null;
         clearTargetedVBox();
-        stopObserving.setVisible(false);
     }
 
 
@@ -79,6 +85,8 @@ public class SimulationController {
 
     public void clearTargetedVBox() {
         targetedVBox.getChildren().clear();
+        stopObserving.setVisible(false);
+
     }
 
     @FXML
@@ -90,7 +98,7 @@ public class SimulationController {
         this.engine = new SimulationEngine(this.map, this.variants, this);
         this.statistics = new Statistics(this.map, this.engine);
         renderGridPane();
-//        initMapSize();
+        initMapSize();
         renderChart();
         updateChart();
         this.container.getChildren().add(this.grid);
@@ -100,8 +108,8 @@ public class SimulationController {
     }
 
     private void initMapSize() {
-        this.cellWidth = this.container.getPrefWidth() / (this.map.getWidth() - 1);
-        this.cellHeight = this.container.getPrefHeight() / (this.map.getHeight() - 1);
+        this.cellWidth = 400.0 / (this.map.getWidth() - 1);
+        this.cellHeight = 400.0 / (this.map.getHeight() - 1);
     }
 
     private void renderChart() {
@@ -180,48 +188,40 @@ public class SimulationController {
         int rightX = this.map.getWidth() - 1;
         int topY = this.map.getHeight() - 1;
 
-        Label yxLabel = new Label("y/x");
-        this.grid.add(yxLabel, 0, 0, 1, 1);
-        this.grid.getColumnConstraints().add(new ColumnConstraints(this.cellWidth));
-        this.grid.getRowConstraints().add(new RowConstraints(this.cellHeight));
-        GridPane.setHalignment(yxLabel, HPos.CENTER);
 
-        for (int i = 1; i < rightX - leftX + 2; i++) {
-            int value = leftX + i - 1;
-            Label label = new Label(value + "");
-            this.grid.add(label, i, 0, 1, 1);
+
+        for (int i = 0; i < rightX - leftX + 1; i++)
             this.grid.getColumnConstraints().add(new ColumnConstraints(this.cellWidth));
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
 
-        for (int i = 1; i < topY - bottomY + 2; i++) {
-            int value = topY - i + 1;
-            Label label = new Label(value + "");
-            this.grid.add(label, 0, i, 1, 1);
+        for (int i = 0; i < topY - bottomY + 1; i++)
             this.grid.getRowConstraints().add(new RowConstraints(this.cellHeight));
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
 
-        for (int i = 1; i < rightX - leftX + 2; i++) {
-            for (int j = 1; j < topY - bottomY + 2; j++) {
-                Node element = getNode(new Vector2d(leftX + i - 1, topY - j + 1));
+        for (int i = 0; i < rightX - leftX + 1; i++) {
+            for (int j = 0; j < topY - bottomY + 1; j++) {
+                Node element = getNode(new Vector2d(leftX + i, topY - j));
                 if (element != null) {
                     this.grid.add(element, i, j);
-                    GridPane.setHalignment(element, HPos.CENTER);
+                    //GridPane.setHalignment(element, HPos.CENTER);
                 }
-
             }
         }
         if (targetedAnimal != null) {
             System.out.println(targetedAnimal.getPosition());
             addTargetedVBox();
         }
+        System.out.println(this.map);
 
+    }
+    public void stopSimulation() {
+        this.isStarted = false;
+
+    }
+    public Boolean getIsStarted() {
+        return this.isStarted;
     }
 
     @FXML
     protected void switchSimulationState() {
-        this.engine.changeThreadState();
         if (this.isStarted) {
             stateButton.setText("Start");
         } else {
@@ -245,31 +245,36 @@ public class SimulationController {
 
             Animal animal = this.map.getAnimals().get(currentPosition).get(0);
 
+
             Color color = getColor(animal.getEnergy());
-            rectangle = new Rectangle(20, 20, color);
+
+            rectangle = new Rectangle(this.cellWidth, this.cellHeight, color);
+            if (animal.getTargeted()) {
+
+                rectangle.setFill(Color.RED);
+            }
+
 
             rectangle.setOnMousePressed(event -> {
                 if (!isStarted && targetedAnimal == null) {
                     animal.changeTargeted();
-                    renderGridPane();
                     targetedAnimal = animal;
                     addTargetedVBox();
                     stopObserving.setVisible(true);
+                    renderGridPane();
+
                 } else if (!isStarted && animal.getTargeted()) {
                     animal.changeTargeted();
                     targetedAnimal = null;
-                    renderGridPane();
                     clearTargetedVBox();
+                    renderGridPane();
                 }
-
             });
-
-
             return rectangle;
         }
 
         if (this.map.getPlants().containsKey(currentPosition)) {
-            return new Circle(10, Color.GREEN);
+            return new Circle(this.cellHeight/2, Color.GREEN);
         }
         return null;
     }
