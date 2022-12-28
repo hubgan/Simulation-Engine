@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.gui.SimulationController;
+import agh.ics.oop.gui.Variants;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -137,9 +138,12 @@ public class SimulationEngine implements IEngine, Runnable {
 
         for (Vector2d position : animalsMap.keySet()) {
             ArrayList<Animal> animalsList = animalsMap.get(position);
-            animalsList.sort(new CustomComparator());
 
-            if (animalsList.size() > 1 && animalsList.get(0).getEnergy() > this.energyNeededToCopulate) {
+            if (animalsList.size() > 0) {
+                animalsList.sort(new CustomComparator());
+            }
+
+            if (animalsList.size() > 1 && animalsList.get(1).getEnergy() > this.energyNeededToCopulate) {
                 Animal strongerAnimal = animalsList.get(0);
                 Animal weakerAnimal = animalsList.get(1);
 
@@ -151,8 +155,8 @@ public class SimulationEngine implements IEngine, Runnable {
                 int newAnimalEnergy = (lowerPercent * weakerAnimal.getEnergy() / 100) +
                         (strongerAnimal.getEnergy() * higherPercent / 100);
 
-                strongerAnimal.decreaseEnergy(higherPercent * strongerAnimal.getEnergy() / 100);
-                weakerAnimal.decreaseEnergy(lowerPercent * weakerAnimal.getEnergy() / 100);
+                strongerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
+                weakerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
 
                 int midPoint = this.numberOfGens * lowerPercent / 100;
 

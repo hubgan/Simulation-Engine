@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.Variants;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -14,7 +16,7 @@ public abstract class AbstractWorldMap implements IMap {
     AbstractWorldMap(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
-        this.garden = new Equator(this.width, this.height, variants);
+        this.garden = createGarden(variants);
     }
 
     @Override
@@ -60,6 +62,13 @@ public abstract class AbstractWorldMap implements IMap {
     @Override
     public boolean isOccupied(Vector2d position) {
         return this.animals.get(position) != null && this.animals.get(position).size() > 0;
+    }
+
+    private IGrassField createGarden(Variants variants) {
+        return switch (variants.getPlantsVariant()) {
+            case FORESTEDEQUATORS -> new Equator(this.width, this.height, variants);
+            case TOXICCORPSES -> new ToxicCorpses(this.width, this.height, variants);
+        };
     }
 
     @Override

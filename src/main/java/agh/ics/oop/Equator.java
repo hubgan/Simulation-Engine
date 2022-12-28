@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.Variants;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;

@@ -1,10 +1,7 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -16,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,15 +52,14 @@ public class SimulationController {
     private VBox targetedVBox;
     @FXML
     private Button stopObserving;
-    @FXML
-    public void exitApplication(ActionEvent event) {
-        Platform.exit();
-    }
 
     @FXML
     protected void clearTargetedAnimal() {
+        targetedAnimal.changeTargeted();
         this.targetedAnimal = null;
+        stopObserving.setVisible(false);
         clearTargetedVBox();
+        renderGridPane();
     }
 
 
@@ -85,8 +80,6 @@ public class SimulationController {
 
     public void clearTargetedVBox() {
         targetedVBox.getChildren().clear();
-        stopObserving.setVisible(false);
-
     }
 
     @FXML
@@ -139,12 +132,11 @@ public class SimulationController {
         this.numberOfAverageEnergySeries.setName("Average Energy of Living Animals");
         this.numberOfAverageLifeTimeSeries.setName("Average Life Time of Dead Animals");
 
-//        lineChart.getData().add(this.numberOfAnimalsSeries);
-//        lineChart.getData().add(this.numberOfPlantsSeries);
-//        lineChart.getData().add(this.numberOfFreeFieldsSeries);
-//        lineChart.getData().add(this.numberOfAverageEnergySeries);
-//        lineChart.getData().add(this.numberOfAverageLifeTimeSeries);
-        lineChart.getData().addAll(this.numberOfAnimalsSeries, this.numberOfPlantsSeries, this.numberOfFreeFieldsSeries, this.numberOfAverageEnergySeries, this.numberOfAverageLifeTimeSeries);
+        lineChart.getData().add(this.numberOfAnimalsSeries);
+        lineChart.getData().add(this.numberOfPlantsSeries);
+        lineChart.getData().add(this.numberOfFreeFieldsSeries);
+        lineChart.getData().add(this.numberOfAverageEnergySeries);
+        lineChart.getData().add(this.numberOfAverageLifeTimeSeries);
 
         this.lineChart = lineChart;
     }
@@ -188,8 +180,6 @@ public class SimulationController {
         int rightX = this.map.getWidth() - 1;
         int topY = this.map.getHeight() - 1;
 
-
-
         for (int i = 0; i < rightX - leftX + 1; i++)
             this.grid.getColumnConstraints().add(new ColumnConstraints(this.cellWidth));
 
@@ -209,8 +199,6 @@ public class SimulationController {
             System.out.println(targetedAnimal.getPosition());
             addTargetedVBox();
         }
-        System.out.println(this.map);
-
     }
     public void stopSimulation() {
         this.isStarted = false;
@@ -242,15 +230,12 @@ public class SimulationController {
     private Shape getNode(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             Rectangle rectangle;
-
             Animal animal = this.map.getAnimals().get(currentPosition).get(0);
 
-
             Color color = getColor(animal.getEnergy());
-
             rectangle = new Rectangle(this.cellWidth, this.cellHeight, color);
-            if (animal.getTargeted()) {
 
+            if (animal.getTargeted()) {
                 rectangle.setFill(Color.RED);
             }
 
@@ -261,12 +246,14 @@ public class SimulationController {
                     targetedAnimal = animal;
                     addTargetedVBox();
                     stopObserving.setVisible(true);
+
                     renderGridPane();
 
                 } else if (!isStarted && animal.getTargeted()) {
                     animal.changeTargeted();
                     targetedAnimal = null;
                     clearTargetedVBox();
+                    stopObserving.setVisible(false);
                     renderGridPane();
                 }
             });
@@ -280,11 +267,61 @@ public class SimulationController {
     }
 
     private Color getColor(int value) {
-        int MIN = 0;
-        int MAX = this.variants.getAnimalStartingEnergy();
+        int calculatePercentage = value * 100 / variants.getAnimalStartingEnergy();
 
-        double hue = Color.BLUE.getHue() + (Color.GREEN.getHue() - Color.BLUE.getHue()) * (value - MIN) / (MAX - MIN);
-        return Color.hsb(hue, 1.0, 1.0);
+        if (calculatePercentage >= 184) {
+            return Color.rgb(0, 177, 0);
+        }
+        else if (calculatePercentage >= 172) {
+            return Color.rgb(0, 203, 0);
+        }
+        else if (calculatePercentage >= 160) {
+            return Color.rgb(0, 226, 0);
+        }
+        else if (calculatePercentage >= 148) {
+            return Color.rgb(0, 241, 0);
+        }
+        else if (calculatePercentage >= 136) {
+            return Color.rgb(8, 255, 0);
+        }
+        else if (calculatePercentage >= 122) {
+            return Color.rgb(165, 125, 0);
+        }
+        else if (calculatePercentage >= 110) {
+            return Color.rgb(204, 159, 19);
+        }
+        else if (calculatePercentage >= 96) {
+            return Color.rgb(236, 189, 44);
+        }
+        else if (calculatePercentage >= 84) {
+            return Color.rgb(249, 198, 44);
+        }
+        else if (calculatePercentage >= 72) {
+            return Color.rgb(249, 216, 137);
+        }
+        else if (calculatePercentage >= 60) {
+            return Color.rgb(168,28,28);
+        }
+        else if (calculatePercentage >= 48) {
+            return Color.rgb(217,35,35);
+        }
+        else if (calculatePercentage >= 36) {
+            return Color.rgb(191,28,28);
+        }
+        else if (calculatePercentage >= 24) {
+            return Color.rgb(178,30,30);
+        }
+        else {
+            return Color.rgb(168,28,28);
+        }
+
+
+
+//        int MIN = 0;
+//        int MAX = this.variants.getAnimalStartingEnergy();
+//
+//        double hue = Color.BLUE.getHue() + (Color.GREEN.getHue() - Color.BLUE.getHue()) * (value - MIN) / (MAX - MIN);
+//        return Color.hsb(hue, 1.0, 1.0);
     }
 
 }

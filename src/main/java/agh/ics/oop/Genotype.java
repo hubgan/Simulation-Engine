@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.Variants;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -53,7 +55,7 @@ public class Genotype {
                     int randomGen = generateRandomNumber(this.gens.length - 1, 0);
 
                     int randomOfTwoInt = new Random().nextBoolean() ? -1 : 1;
-                    this.gens[randomGen] = Math.floorMod(this.gens[randomGen] + randomOfTwoInt, this.gens.length);
+                    this.gens[randomGen] = Math.floorMod(this.gens[randomGen] + randomOfTwoInt, 8);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.Variants;
+
 import java.util.Random;
 
 public class Animal {
@@ -50,7 +52,7 @@ public class Animal {
         }
         else {
             this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype,
-                    this.numberOfGens - midPoint, this.variants);
+                    this.numberOfGens - midPoint - 1, this.variants);
         }
     }
 

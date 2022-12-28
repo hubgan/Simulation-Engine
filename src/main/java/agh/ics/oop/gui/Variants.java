@@ -1,8 +1,9 @@
-package agh.ics.oop;
+package agh.ics.oop.gui;
 
 import agh.ics.oop.enums.BehaviourVariants;
 import agh.ics.oop.enums.MapVariants;
 import agh.ics.oop.enums.MutationVariants;
+import agh.ics.oop.enums.PlantsVariants;
 
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class Variants {
     private final MutationVariants mutationVariant;
     /*private  String behaviourVariant = "test";*/
     private final BehaviourVariants behaviourVariant;
+    private final PlantsVariants plantsVariant;
     private final int plantEnergyGain;
     private final int plantsStartingNumber;
     private final int growthNumber;
@@ -55,11 +57,13 @@ public class Variants {
         this.energyLost = energyLost;
     }*/
     public Variants(Map<String,String> map) {
+        System.out.println(map);
         this.width = Integer.parseInt(map.get("width")) ;
         this.height = Integer.parseInt(map.get("height"));
         this.mapVariant = MapVariants.stringToEnum(map.get("mapVariant"));
         this.mutationVariant = MutationVariants.stringToEnum(map.get("mutationVariant"));
         this.behaviourVariant = BehaviourVariants.stringToEnum(map.get("animalsVariant"));
+        this.plantsVariant = PlantsVariants.stringToEnum(map.get("plantsVariant"));
         this.plantEnergyGain = Integer.parseInt(map.get("energyGain"));
         this.plantsStartingNumber = Integer.parseInt(map.get("plantsStartingNumber"));
         this.growthNumber = Integer.parseInt(map.get("growthNumber"));
@@ -135,5 +139,9 @@ public class Variants {
 
     public MutationVariants getMutationVariant() {
         return mutationVariant;
+    }
+
+    public PlantsVariants getPlantsVariant() {
+        return plantsVariant;
     }
 }

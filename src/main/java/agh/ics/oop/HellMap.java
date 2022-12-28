@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.Variants;
+
 public class HellMap extends AbstractWorldMap implements IMap {
     private final Vector2d lowerBorder;
     private final Vector2d upperBorder;
