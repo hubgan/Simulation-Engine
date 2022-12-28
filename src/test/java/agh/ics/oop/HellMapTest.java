@@ -18,6 +18,7 @@ class HellMapTest {
         variantsMap.put("mapVariant", "infernal portal");
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("plantsVariant", "forested equatorial");
         variantsMap.put("energyGain", "2");
         variantsMap.put("plantsStartingNumber", "0");
         variantsMap.put("growthNumber", "0");

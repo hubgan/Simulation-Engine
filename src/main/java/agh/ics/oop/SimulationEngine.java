@@ -158,7 +158,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 strongerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
                 weakerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
 
-                int midPoint = this.numberOfGens * lowerPercent / 100;
+                int midPoint = this.numberOfGens * higherPercent / 100;
 
                 Animal youngAnimal = new Animal(position, this.map,
                         newAnimalEnergy, strongerAnimal.getGenotype(), weakerAnimal.getGenotype(), midPoint,

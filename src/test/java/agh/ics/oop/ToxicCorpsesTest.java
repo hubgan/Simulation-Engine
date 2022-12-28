@@ -18,6 +18,7 @@ class ToxicCorpsesTest {
         variantsMap.put("mapVariant", "earth globe");
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("plantsVariant", "toxic corpses");
         variantsMap.put("energyGain", "2");
         variantsMap.put("plantsStartingNumber", "0");
         variantsMap.put("growthNumber", "0");

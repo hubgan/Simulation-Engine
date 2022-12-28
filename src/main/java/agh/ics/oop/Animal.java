@@ -46,13 +46,13 @@ public class Animal {
         this.variants = variants;
         this.numberOfGens = this.variants.getGenomLength();
 
-        if (new Random().nextInt(2) == 0) {
-            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype, midPoint,
+        if (new Random().nextInt(2) == 0) { // Left side of stronger genotype
+            this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype, midPoint,
                     this.variants);
         }
-        else {
-            this.genotype = new Genotype(this.numberOfGens, strongerGenotype, weakerGenotype,
-                    this.numberOfGens - midPoint - 1, this.variants);
+        else { // Right side of stronger genotype
+            this.genotype = new Genotype(this.numberOfGens, weakerGenotype, strongerGenotype,
+                    this.numberOfGens - midPoint, this.variants);
         }
     }
 

@@ -25,11 +25,11 @@ public class Genotype {
         this.gens = new int[numberOfGens];
 
         for (int i = 0; i < midPoint; i++) {
-            this.gens[i] = secondGenotype[i];
+            this.gens[i] = firstGenotype[i];
         }
 
         for (int i = midPoint; i < numberOfGens; i++) {
-            this.gens[i] = firstGenotype[i];
+            this.gens[i] = secondGenotype[i];
         }
 
         mutation(variants);

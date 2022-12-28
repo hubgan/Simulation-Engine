@@ -18,6 +18,7 @@ class SimulationEngineTest {
         variantsMap.put("mapVariant", "earth globe");
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("plantsVariant", "forested equatorial");
         variantsMap.put("energyGain", "2");
         variantsMap.put("plantsStartingNumber", "0");
         variantsMap.put("growthNumber", "0");
@@ -66,6 +67,7 @@ class SimulationEngineTest {
         variantsMap.put("mapVariant", "earth globe");
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("plantsVariant", "forested equatorial");
         variantsMap.put("energyGain", "2");
         variantsMap.put("plantsStartingNumber", "0");
         variantsMap.put("growthNumber", "0");
@@ -113,6 +115,7 @@ class SimulationEngineTest {
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
         variantsMap.put("energyGain", "2");
+        variantsMap.put("plantsVariant", "forested equatorial");
         variantsMap.put("plantsStartingNumber", "0");
         variantsMap.put("growthNumber", "1");
         variantsMap.put("animalStartingNumber", "0");
@@ -175,6 +178,7 @@ class SimulationEngineTest {
         variantsMap.put("mapVariant", "earth globe");
         variantsMap.put("mutationVariant", "slight correction");
         variantsMap.put("animalsVariant", "full predestination");
+        variantsMap.put("plantsVariant", "forested equatorial");
         variantsMap.put("energyGain", "2");
         variantsMap.put("plantsStartingNumber", "25");
         variantsMap.put("growthNumber", "2");
