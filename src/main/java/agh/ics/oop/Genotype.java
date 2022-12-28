@@ -24,15 +24,24 @@ public class Genotype {
     Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint, Variants variants) {
         this.gens = new int[numberOfGens];
 
-        for (int i = 0; i < midPoint; i++) {
-            this.gens[i] = firstGenotype[i];
-        }
+        if (midPoint >= 0) System.arraycopy(firstGenotype, 0, this.gens, 0, midPoint);
 
-        for (int i = midPoint; i < numberOfGens; i++) {
-            this.gens[i] = secondGenotype[i];
-        }
+        if (numberOfGens - midPoint >= 0)
+            System.arraycopy(secondGenotype, midPoint, this.gens, midPoint, numberOfGens - midPoint);
 
         mutation(variants);
+    }
+
+    Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint, Variants variants, boolean isTest) {
+        // For Test cases
+        System.out.println(isTest);
+        System.out.println(variants);
+        this.gens = new int[numberOfGens];
+
+        if (midPoint >= 0) System.arraycopy(firstGenotype, 0, this.gens, 0, midPoint);
+
+        if (numberOfGens - midPoint >= 0)
+            System.arraycopy(secondGenotype, midPoint, this.gens, midPoint, numberOfGens - midPoint);
     }
 
     private void mutation(Variants variants) {
