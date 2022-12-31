@@ -61,7 +61,13 @@ public class Animal {
 
         changeDirection();
         if (this.map.canMoveTo(this.position.add(this.direction.toUnitVector()))) {
-            this.position = this.map.correctPosition(this.position.add(this.direction.toUnitVector()));
+            Vector2d newPositionBeforeCorrection = this.position.add(this.direction.toUnitVector());
+            this.position = this.map.correctPosition(newPositionBeforeCorrection);
+
+            if (!this.position.equals(newPositionBeforeCorrection)) {
+                this.decreaseEnergy(variants.getCopulationEnergyLost());
+            }
+
             positionChanged(oldPosition, this.position);
         }
     }

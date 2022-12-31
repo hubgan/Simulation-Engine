@@ -236,7 +236,7 @@ public class SimulationController {
             rectangle = new Rectangle(this.cellWidth, this.cellHeight, color);
 
             if (animal.getTargeted()) {
-                rectangle.setFill(Color.RED);
+                rectangle.setFill(Color.BLUE);
             }
 
 
