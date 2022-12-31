@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.maps.HellMap;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

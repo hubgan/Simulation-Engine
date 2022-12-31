@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.maps.Equator;
+import agh.ics.oop.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

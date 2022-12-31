@@ -1,7 +1,14 @@
-package agh.ics.oop;
+package agh.ics.oop.engine;
 
+import agh.ics.oop.utils.AnimalComparator;
+import agh.ics.oop.utils.Vector2d;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.SimulationController;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.maps.ToxicCorpses;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -20,7 +27,6 @@ public class SimulationEngine implements IEngine, Runnable {
 
     private final ArrayList<Animal> deadAnimals = new ArrayList<>();
     private final Variants variants;
-    private Boolean runThread = true;
 
     public SimulationEngine(IMap map, Variants variants, SimulationController simulationController)  {
         this.simulationController = simulationController;
@@ -81,7 +87,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 Platform.runLater(simulationController::updateChart);
                 Platform.runLater(simulationController::renderGridPane);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -125,7 +131,7 @@ public class SimulationEngine implements IEngine, Runnable {
         for (Vector2d position : animalsMap.keySet()) {
             if (plantsPositions.containsKey(position)) {
                 ArrayList<Animal> animalsList = animalsMap.get(position);
-                animalsList.sort(new CustomComparator());
+                animalsList.sort(new AnimalComparator());
                 Animal animal = animalsList.get(0);
                 animal.eat(plantsPositions.get(position));
                 this.map.eatPlant(position);
@@ -140,7 +146,7 @@ public class SimulationEngine implements IEngine, Runnable {
             ArrayList<Animal> animalsList = animalsMap.get(position);
 
             if (animalsList.size() > 0) {
-                animalsList.sort(new CustomComparator());
+                animalsList.sort(new AnimalComparator());
             }
 
             if (animalsList.size() > 1 && animalsList.get(1).getEnergy() > this.energyNeededToCopulate) {

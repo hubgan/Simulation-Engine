@@ -1,7 +1,6 @@
 package agh.ics.oop.gui;
 
 
-import agh.ics.oop.Configuration;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

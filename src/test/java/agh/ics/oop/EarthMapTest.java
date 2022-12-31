@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.maps.EarthMap;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,10 +44,12 @@ class EarthMapTest {
         Animal animal = animalsLists.get(new Vector2d(2, 2)).get(0);
 
         Vector2d position = new Vector2d(2, 2);
+        int[] assumedEnergy = new int[]{48, 46, 44, 42, 40, 38, 36, 34, 32, 30};
         for (int i = 0; i < 10; i++) {
             engine.run();
             position = new Vector2d(Math.floorMod(position.x + 1, map.getWidth()), position.y);
             assertEquals(position, animal.getPosition());
+            assertEquals(assumedEnergy[i], animal.getEnergy());
         }
 
         map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
@@ -55,6 +63,7 @@ class EarthMapTest {
             engine.run();
             position = new Vector2d(Math.floorMod(position.x - 1, map.getWidth()), position.y);
             assertEquals(position, animal.getPosition());
+            assertEquals(assumedEnergy[i], animal.getEnergy());
         }
 
         map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
@@ -68,6 +77,7 @@ class EarthMapTest {
             engine.run();
             position = new Vector2d(position.x, Math.min(variants.getHeight() - 1, position.y + 1));
             assertEquals(position, animal.getPosition());
+            assertEquals(assumedEnergy[i], animal.getEnergy());
         }
 
         map = new EarthMap(variants.getWidth(), variants.getHeight(), variants);
@@ -81,6 +91,7 @@ class EarthMapTest {
             engine.run();
             position = new Vector2d(position.x, Math.max(0, position.y - 1));
             assertEquals(position, animal.getPosition());
+            assertEquals(assumedEnergy[i], animal.getEnergy());
         }
     }
 }

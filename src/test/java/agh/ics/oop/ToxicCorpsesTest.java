@@ -1,6 +1,12 @@
 package agh.ics.oop;
 
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.maps.EarthMap;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.maps.ToxicCorpses;
+import agh.ics.oop.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

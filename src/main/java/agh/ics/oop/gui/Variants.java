@@ -29,33 +29,6 @@ public class Variants {
     private final int energyLost;
     private final int copulationEnergyLost;
 
-
-
-
-
-
-
-   /* public Variants(int width, int height, String mapVariant, String mutationVariant, String behaviourVariant
-            , int plantEnergyGain, int startingNumberOfPlants,
-                    int amountOfPlantsGrowEveryDay,
-                    int startingNumberOfAnimals, int startingEnergyOfAnimals, int energyNeededToCopulation,
-                    int minimumNumberOfMutations, int maximumNumberOfMutations, int numberOfGens, int energyLost) {
-        this.width = width;
-        this.height = height;
-        this.mapVariant = mapVariant;
-        this.mutationVariant = mutationVariant;
-        this.behaviourVariant = behaviourVariant;
-        this.plantEnergyGain = plantEnergyGain;
-        this.plantsStartingNumber = startingNumberOfPlants;
-        this.growthNumber = amountOfPlantsGrowEveryDay;
-        this.startingEnergyOfAnimals = startingEnergyOfAnimals;
-        this.animalsStartingNumber = startingNumberOfAnimals;
-        this.energyNeededToCopulation = energyNeededToCopulation;
-        this.minimumNumberOfMutations = minimumNumberOfMutations;
-        this.maximumNumberOfMutations = maximumNumberOfMutations;
-        this.numberOfGens = numberOfGens;
-        this.energyLost = energyLost;
-    }*/
     public Variants(Map<String,String> map) {
         System.out.println(map);
         this.width = Integer.parseInt(map.get("width")) ;

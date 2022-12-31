@@ -1,4 +1,10 @@
-package agh.ics.oop;
+package agh.ics.oop.gui;
+
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.utils.Vector2d;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.maps.IMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +81,7 @@ public class Statistics {
         int totalLifeTime = 0;
 
         for (Animal animal : this.engine.getDeadAnimals()) {
-            totalLifeTime += animal.getOld();
+            totalLifeTime += animal.getAge();
         }
 
         return (float) totalLifeTime / numberOfDeadAnimals;

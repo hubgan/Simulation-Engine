@@ -1,4 +1,7 @@
-package agh.ics.oop;
+package agh.ics.oop.maps;
+
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.utils.Vector2d;
 
 import java.util.HashMap;
 

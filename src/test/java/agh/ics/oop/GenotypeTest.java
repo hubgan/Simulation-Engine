@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.map_elements.Genotype;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

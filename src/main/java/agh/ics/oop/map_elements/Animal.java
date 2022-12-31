@@ -1,6 +1,10 @@
-package agh.ics.oop;
+package agh.ics.oop.map_elements;
 
+import agh.ics.oop.enums.MapVariants;
+import agh.ics.oop.utils.Vector2d;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.maps.IMap;
 
 import java.util.Random;
 
@@ -13,8 +17,8 @@ public class Animal {
     private final int numberOfGens;
     private final Variants variants;
     private int energy;
-    private int old = 0;
-    private int kids = 0;
+    private int age = 0;
+    private int children = 0;
     private int currentGenIndex = 0;
     private int eatenPlants = 0;
     private int deadDay;
@@ -64,11 +68,16 @@ public class Animal {
             Vector2d newPositionBeforeCorrection = this.position.add(this.direction.toUnitVector());
             this.position = this.map.correctPosition(newPositionBeforeCorrection);
 
-            if (!this.position.equals(newPositionBeforeCorrection)) {
-                this.decreaseEnergy(variants.getCopulationEnergyLost());
-            }
+            ifAnimalMoveOutOfBorder(newPositionBeforeCorrection);
 
             positionChanged(oldPosition, this.position);
+        }
+    }
+
+    // if map variant is HellMap decrease energy when out of border
+    private void ifAnimalMoveOutOfBorder(Vector2d positionBeforeCorrection) {
+        if (this.variants.getMapVariant() == MapVariants.HELLMAP && !this.position.equals(positionBeforeCorrection)) {
+            this.decreaseEnergy(variants.getCopulationEnergyLost());
         }
     }
 
@@ -79,9 +88,7 @@ public class Animal {
 
     private void changeGenIndex() {
         switch (this.variants.getBehaviourVariant()) {
-            case PREDESTINATION -> {
-                this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
-            }
+            case PREDESTINATION -> this.currentGenIndex = (this.currentGenIndex + 1) % this.numberOfGens;
             case MADNESS -> {
                 int randomNumber = this.getRandomNumber(10);
                 if (randomNumber < 8) {
@@ -90,7 +97,7 @@ public class Animal {
                 else {
                     int lastGenIndex = this.currentGenIndex;
 
-                    while (lastGenIndex == this.currentGenIndex) {
+                    while (lastGenIndex == this.currentGenIndex) { // change until gen is different
                         this.currentGenIndex = this.getRandomNumber(this.numberOfGens);
                     }
                 }
@@ -98,6 +105,7 @@ public class Animal {
         }
     }
 
+    // update positions of animals in map
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         this.map.positionChanged(oldPosition, newPosition, this);
     }
@@ -113,18 +121,14 @@ public class Animal {
     }
 
     public void increaseOld() {
-        this.old += 1;
+        this.age += 1;
     }
 
     public void increaseKids() {
-        this.kids += 1;
+        this.children += 1;
     }
 
     // Getters methods
-
-    public MapDirection getDirection() {
-        return this.direction;
-    }
 
     public int[] getGenotype() {
         return this.genotype.getGens();
@@ -138,12 +142,12 @@ public class Animal {
         return this.energy;
     }
 
-    public int getOld() {
-        return this.old;
+    public int getAge() {
+        return this.age;
     }
 
-    public int getKids() {
-        return this.kids;
+    public int getChildren() {
+        return this.children;
     }
 
     public String toString() {

@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.enums.MapDirection;
 import agh.ics.oop.gui.Variants;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.maps.EarthMap;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.utils.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,7 +49,7 @@ class SimulationEngineTest {
             for (Vector2d position: animalsLists.keySet()) {
                 for (Animal animal: animalsLists.get(position)) {
                     assertEquals(variants.getAnimalStartingEnergy() - i * variants.getEnergyLost(), animal.getEnergy());
-                    assertEquals(i, animal.getOld());
+                    assertEquals(i, animal.getAge());
                 }
             }
         }
@@ -97,7 +104,7 @@ class SimulationEngineTest {
             int i = 0;
             for (Animal animal: animalsLists.get(position)) {
                 assertEquals(assumedEnergy[i], animal.getEnergy());
-                assertEquals(assumedKids[i], animal.getKids());
+                assertEquals(assumedKids[i], animal.getChildren());
                 sumOfEnergyAfter += animal.getEnergy();
                 i += 1;
             }

@@ -1,5 +1,7 @@
-package agh.ics.oop;
+package agh.ics.oop.maps;
 
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.utils.Vector2d;
 import agh.ics.oop.gui.Variants;
 
 import java.util.ArrayList;
@@ -10,13 +12,13 @@ public class Equator implements IGrassField {
     protected final ArrayList<Vector2d> freeEquatorPositions = new ArrayList<>();
     protected final ArrayList<Vector2d> freeGrassLandPositions = new ArrayList<>();
     protected final HashMap<Vector2d, Plant> plantsPositions = new HashMap<>();
-    private Random random = new Random();
+    private final Random random = new Random();
     private final Variants variants;
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
-    Equator(int width, int height, Variants variants) {
+    public Equator(int width, int height, Variants variants) {
         this.width = width;
         this.height = height;
         this.variants = variants;
@@ -62,7 +64,7 @@ public class Equator implements IGrassField {
         this.plantsPositions.put(position, new Plant(position, this.variants.getPlantEnergyGain()));
     }
 
-    private boolean isInEquatorBoundary(int y) {
+    private boolean isInEquatorBoundary(int y) { // Equator occupies 30% of the map
         return y >= this.height / 3 && y <= (this.height / 3) * 2;
     }
 

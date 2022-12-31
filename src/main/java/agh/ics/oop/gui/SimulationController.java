@@ -1,6 +1,11 @@
 package agh.ics.oop.gui;
 
-import agh.ics.oop.*;
+import agh.ics.oop.engine.SimulationEngine;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.maps.EarthMap;
+import agh.ics.oop.maps.HellMap;
+import agh.ics.oop.maps.IMap;
+import agh.ics.oop.utils.Vector2d;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
@@ -76,8 +81,8 @@ public class SimulationController {
         list.add(new Label("Genom: " + genotypeToString(targetedAnimal.getGenotype())));
         list.add(new Label("Active genom: " + targetedAnimal.getGenotype()[targetedAnimal.getCurrentGenIndex()]));
         list.add(new Label("Eaten plants: " + targetedAnimal.getEatenPlants()));
-        list.add(new Label("Children: " + targetedAnimal.getKids()));
-        list.add(new Label("Days lived: " + targetedAnimal.getOld()));
+        list.add(new Label("Children: " + targetedAnimal.getChildren()));
+        list.add(new Label("Days lived: " + targetedAnimal.getAge()));
         if (targetedAnimal.getDeadDay() != 0) {
             list.add(new Label("Day when died: " + targetedAnimal.getDeadDay()));
         }
@@ -205,6 +210,7 @@ public class SimulationController {
                 }
             }
         }
+
         if (targetedAnimal != null) {
             addTargetedVBox();
         }
@@ -226,11 +232,9 @@ public class SimulationController {
             stateButton.setText("Start");
             renderGridPane();
         } else {
-
             stateButton.setText("Stop");
             this.thread = new Thread(this.engine);
             this.thread.start();
-
         }
 
     }
@@ -245,17 +249,17 @@ public class SimulationController {
     private Shape getShape(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             Rectangle rectangle;
-            Animal choosenAnimal = this.map.getAnimals().get(currentPosition).get(0);
+            Animal chosenAnimal = this.map.getAnimals().get(currentPosition).get(0);
             for (Animal animal : this.map.getAnimals().get(currentPosition)) {
-                if (animal.getTargeted()) choosenAnimal = animal;
+                if (animal.getTargeted()) chosenAnimal = animal;
                 if (!this.isStarted && Arrays.equals(animal.getGenotype(), this.mostPopularGenotype)) {
-                    choosenAnimal = animal;
+                    chosenAnimal = animal;
                     break;
                 }
 
             }
 
-            Animal animal = choosenAnimal;
+            Animal animal = chosenAnimal;
 
             Color color = getColor(animal.getEnergy());
             rectangle = new Rectangle(this.cellWidth, this.cellHeight, color);
@@ -274,7 +278,6 @@ public class SimulationController {
                     addTargetedVBox();
                     stopObserving.setVisible(true);
                     renderGridPane();
-
                 } else if (!isStarted && animal.getTargeted()) {
                     animal.changeTargeted();
                     targetedAnimal = null;

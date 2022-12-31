@@ -1,4 +1,4 @@
-package agh.ics.oop;
+package agh.ics.oop.map_elements;
 
 import agh.ics.oop.gui.Variants;
 
@@ -32,7 +32,7 @@ public class Genotype {
         mutation(variants);
     }
 
-    Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint, Variants variants, boolean isTest) {
+    public Genotype(int numberOfGens, int[] firstGenotype, int[] secondGenotype, int midPoint, Variants variants, boolean isTest) {
         // For Test cases
         System.out.println(isTest);
         System.out.println(variants);
@@ -52,7 +52,7 @@ public class Genotype {
                     int randomGen = generateRandomNumber(this.gens.length - 1, 0);
                     int oldGen = this.gens[randomGen];
 
-                    while (this.gens[randomGen] == oldGen) {
+                    while (this.gens[randomGen] == oldGen) { // change until gen is different
                         this.gens[randomGen] = generateRandomNumber(7, 0);
                     }
                 }

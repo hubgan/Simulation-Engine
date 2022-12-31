@@ -1,5 +1,7 @@
-package agh.ics.oop;
+package agh.ics.oop.maps;
 
+import agh.ics.oop.map_elements.Plant;
+import agh.ics.oop.utils.Vector2d;
 import agh.ics.oop.gui.Variants;
 
 import java.util.*;
@@ -50,7 +52,10 @@ public class ToxicCorpses implements IGrassField {
 
     private void generatePlantsWithSort(int n) {
         if (n > this.freePositions.size()) n = this.freePositions.size();
+
+        // Sort HashMap by values
         Iterator<Map.Entry<Vector2d, Integer>> sorted = this.freePositions.entrySet().stream().sorted(Map.Entry.comparingByValue()).iterator();
+
         for (int i = 0; i < n; i++) {
             Vector2d position = sorted.next().getKey();
             this.plantsPositions.put(position, new Plant(position, this.variants.getPlantEnergyGain()));
@@ -63,8 +68,8 @@ public class ToxicCorpses implements IGrassField {
     public void addPlant(int quantity) {
         int randInt = this.random.nextInt(10);
 
-        if (randInt < 8) generatePlantsWithSort(quantity);
-        else generatePlantsWithoutSort(quantity);
+        if (randInt < 8) generatePlantsWithSort(quantity); // 80% for generating plants where most animals died
+        else generatePlantsWithoutSort(quantity); // 20% for generating plants on random positions
     }
 
     @Override

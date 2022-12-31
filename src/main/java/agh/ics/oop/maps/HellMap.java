@@ -1,5 +1,6 @@
-package agh.ics.oop;
+package agh.ics.oop.maps;
 
+import agh.ics.oop.utils.Vector2d;
 import agh.ics.oop.gui.Variants;
 
 public class HellMap extends AbstractWorldMap implements IMap {
