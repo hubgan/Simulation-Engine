@@ -30,6 +30,7 @@ public class SimulationController {
     private double cellWidth = 50;
     private Thread thread;
     private Animal targetedAnimal;
+    private int[] mostPopularGenotype;
 
     // charts
     private LineChart<Number, Number> lineChart;
@@ -52,6 +53,8 @@ public class SimulationController {
     private VBox targetedVBox;
     @FXML
     private Button stopObserving;
+    @FXML
+    private Label mostPopularGenotypeLabel;
 
     @FXML
     protected void clearTargetedAnimal() {
@@ -62,12 +65,15 @@ public class SimulationController {
         renderGridPane();
     }
 
+    private String genotypeToString(int[] genotype) {
+        return Arrays.toString(genotype).replace(",", "").replace("[", "").replace("]", "").trim();
+    }
 
     public void addTargetedVBox() {
         clearTargetedVBox();
         List<Label> list = new ArrayList<>();
         list.add(new Label("Energy: " + targetedAnimal.getEnergy()));
-        list.add(new Label("Genom: " + Arrays.toString(targetedAnimal.getGenotype()).replace(",", "").replace("[", "").replace("]", "").trim()));
+        list.add(new Label("Genom: " + genotypeToString(targetedAnimal.getGenotype())));
         list.add(new Label("Active genom: " + targetedAnimal.getGenotype()[targetedAnimal.getCurrentGenIndex()]));
         list.add(new Label("Eaten plants: " + targetedAnimal.getEatenPlants()));
         list.add(new Label("Children: " + targetedAnimal.getKids()));
@@ -153,7 +159,8 @@ public class SimulationController {
         this.numberOfFreeFieldsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfFreeFields));
         this.numberOfAverageEnergySeries.getData().add(new XYChart.Data<>(simulationTime, averageEnergy));
         this.numberOfAverageLifeTimeSeries.getData().add(new XYChart.Data<>(simulationTime, averageLifeTime));
-
+        this.mostPopularGenotype = this.statistics.getMostPopularGenotype().get(0).getGenotype();
+        this.mostPopularGenotypeLabel.setText("Most popular genotype: " + genotypeToString(this.mostPopularGenotype));
         if (this.numberOfAnimalsSeries.getData().size() > CHART_SIZE) {
             // Show only last 10 values on chart
             NumberAxis xAxis = ((NumberAxis) this.lineChart.getXAxis());
@@ -188,7 +195,7 @@ public class SimulationController {
 
         for (int i = 0; i < rightX - leftX + 1; i++) {
             for (int j = 0; j < topY - bottomY + 1; j++) {
-                Node element = getNode(new Vector2d(leftX + i, topY - j));
+                Node element = getShape(new Vector2d(leftX + i, topY - j));
                 if (element != null) {
                     this.grid.add(element, i, j);
                     //GridPane.setHalignment(element, HPos.CENTER);
@@ -196,28 +203,33 @@ public class SimulationController {
             }
         }
         if (targetedAnimal != null) {
-            System.out.println(targetedAnimal.getPosition());
             addTargetedVBox();
         }
     }
+
     public void stopSimulation() {
         this.isStarted = false;
 
     }
+
     public Boolean getIsStarted() {
         return this.isStarted;
     }
 
     @FXML
     protected void switchSimulationState() {
-        if (this.isStarted) {
+        this.isStarted = !this.isStarted;
+        if (!this.isStarted) {
             stateButton.setText("Start");
+            renderGridPane();
         } else {
+
             stateButton.setText("Stop");
             this.thread = new Thread(this.engine);
             this.thread.start();
+
         }
-        this.isStarted = !this.isStarted;
+
     }
 
     private IMap createMap(Variants variants) {
@@ -227,16 +239,28 @@ public class SimulationController {
         };
     }
 
-    private Shape getNode(Vector2d currentPosition) {
+    private Shape getShape(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             Rectangle rectangle;
-            Animal animal = this.map.getAnimals().get(currentPosition).get(0);
+            Animal choosenAnimal = this.map.getAnimals().get(currentPosition).get(0);
+            for (Animal animal : this.map.getAnimals().get(currentPosition)) {
+                if (animal.getTargeted()) choosenAnimal = animal;
+                if (!this.isStarted && Arrays.equals(animal.getGenotype(), this.mostPopularGenotype)) {
+                    choosenAnimal = animal;
+                    break;
+                }
+
+            }
+            Animal animal = choosenAnimal;
 
             Color color = getColor(animal.getEnergy());
             rectangle = new Rectangle(this.cellWidth, this.cellHeight, color);
-
             if (animal.getTargeted()) {
                 rectangle.setFill(Color.BLUE);
+            }
+
+            if (!this.isStarted && Arrays.equals(animal.getGenotype(), this.mostPopularGenotype)) {
+                rectangle.setFill(Color.VIOLET);
             }
 
 
@@ -246,7 +270,6 @@ public class SimulationController {
                     targetedAnimal = animal;
                     addTargetedVBox();
                     stopObserving.setVisible(true);
-
                     renderGridPane();
 
                 } else if (!isStarted && animal.getTargeted()) {
@@ -261,7 +284,7 @@ public class SimulationController {
         }
 
         if (this.map.getPlants().containsKey(currentPosition)) {
-            return new Circle(this.cellHeight/2, Color.GREEN);
+            return new Circle(this.cellHeight / 2, Color.GREEN);
         }
         return null;
     }
@@ -271,50 +294,35 @@ public class SimulationController {
 
         if (calculatePercentage >= 184) {
             return Color.rgb(0, 177, 0);
-        }
-        else if (calculatePercentage >= 172) {
+        } else if (calculatePercentage >= 172) {
             return Color.rgb(0, 203, 0);
-        }
-        else if (calculatePercentage >= 160) {
+        } else if (calculatePercentage >= 160) {
             return Color.rgb(0, 226, 0);
-        }
-        else if (calculatePercentage >= 148) {
+        } else if (calculatePercentage >= 148) {
             return Color.rgb(0, 241, 0);
-        }
-        else if (calculatePercentage >= 136) {
+        } else if (calculatePercentage >= 136) {
             return Color.rgb(8, 255, 0);
-        }
-        else if (calculatePercentage >= 122) {
+        } else if (calculatePercentage >= 122) {
             return Color.rgb(165, 125, 0);
-        }
-        else if (calculatePercentage >= 110) {
+        } else if (calculatePercentage >= 110) {
             return Color.rgb(204, 159, 19);
-        }
-        else if (calculatePercentage >= 96) {
+        } else if (calculatePercentage >= 96) {
             return Color.rgb(236, 189, 44);
-        }
-        else if (calculatePercentage >= 84) {
+        } else if (calculatePercentage >= 84) {
             return Color.rgb(249, 198, 44);
-        }
-        else if (calculatePercentage >= 72) {
+        } else if (calculatePercentage >= 72) {
             return Color.rgb(249, 216, 137);
+        } else if (calculatePercentage >= 60) {
+            return Color.rgb(168, 28, 28);
+        } else if (calculatePercentage >= 48) {
+            return Color.rgb(217, 35, 35);
+        } else if (calculatePercentage >= 36) {
+            return Color.rgb(191, 28, 28);
+        } else if (calculatePercentage >= 24) {
+            return Color.rgb(178, 30, 30);
+        } else {
+            return Color.rgb(168, 28, 28);
         }
-        else if (calculatePercentage >= 60) {
-            return Color.rgb(168,28,28);
-        }
-        else if (calculatePercentage >= 48) {
-            return Color.rgb(217,35,35);
-        }
-        else if (calculatePercentage >= 36) {
-            return Color.rgb(191,28,28);
-        }
-        else if (calculatePercentage >= 24) {
-            return Color.rgb(178,30,30);
-        }
-        else {
-            return Color.rgb(168,28,28);
-        }
-
 
 
 //        int MIN = 0;
