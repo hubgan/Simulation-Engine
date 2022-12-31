@@ -159,8 +159,12 @@ public class SimulationController {
         this.numberOfFreeFieldsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfFreeFields));
         this.numberOfAverageEnergySeries.getData().add(new XYChart.Data<>(simulationTime, averageEnergy));
         this.numberOfAverageLifeTimeSeries.getData().add(new XYChart.Data<>(simulationTime, averageLifeTime));
-        this.mostPopularGenotype = this.statistics.getMostPopularGenotype().get(0).getGenotype();
-        this.mostPopularGenotypeLabel.setText("Most popular genotype: " + genotypeToString(this.mostPopularGenotype));
+
+        if (this.statistics.getMostPopularGenotype().size() > 0) {
+            this.mostPopularGenotype = this.statistics.getMostPopularGenotype().get(0).getGenotype();
+            this.mostPopularGenotypeLabel.setText("Most popular genotype: " + genotypeToString(this.mostPopularGenotype));
+        }
+
         if (this.numberOfAnimalsSeries.getData().size() > CHART_SIZE) {
             // Show only last 10 values on chart
             NumberAxis xAxis = ((NumberAxis) this.lineChart.getXAxis());
@@ -198,7 +202,6 @@ public class SimulationController {
                 Node element = getShape(new Vector2d(leftX + i, topY - j));
                 if (element != null) {
                     this.grid.add(element, i, j);
-                    //GridPane.setHalignment(element, HPos.CENTER);
                 }
             }
         }
@@ -251,6 +254,7 @@ public class SimulationController {
                 }
 
             }
+
             Animal animal = choosenAnimal;
 
             Color color = getColor(animal.getEnergy());
@@ -262,7 +266,6 @@ public class SimulationController {
             if (!this.isStarted && Arrays.equals(animal.getGenotype(), this.mostPopularGenotype)) {
                 rectangle.setFill(Color.VIOLET);
             }
-
 
             rectangle.setOnMousePressed(event -> {
                 if (!isStarted && targetedAnimal == null) {
@@ -323,13 +326,6 @@ public class SimulationController {
         } else {
             return Color.rgb(168, 28, 28);
         }
-
-
-//        int MIN = 0;
-//        int MAX = this.variants.getAnimalStartingEnergy();
-//
-//        double hue = Color.BLUE.getHue() + (Color.GREEN.getHue() - Color.BLUE.getHue()) * (value - MIN) / (MAX - MIN);
-//        return Color.hsb(hue, 1.0, 1.0);
     }
 
 }

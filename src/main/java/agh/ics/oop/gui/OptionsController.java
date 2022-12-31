@@ -117,6 +117,7 @@ public class OptionsController {
             });
             stage.setTitle("New Window");
             stage.setScene(scene);
+            stage.setMaximized(true);
             ((SimulationController) fxmlLoader.getController()).initialize(new Variants(getAllValues()));
             stage.show();
         } else {

@@ -28,7 +28,7 @@ class HellMapTest {
         variantsMap.put("minMutations", "0");
         variantsMap.put("maxMutations", "2");
         variantsMap.put("genomLength", "1");
-        variantsMap.put("moveEnergyLoss", "2");
+        variantsMap.put("moveEnergyLoss", "5");
         variantsMap.put("copulationEnergyLoss", "4");
         Variants variants = new Variants(variantsMap);
         IMap map = new HellMap(variants.getWidth(), variants.getHeight(), variants);
@@ -39,12 +39,15 @@ class HellMapTest {
         Animal animal = animalsLists.get(new Vector2d(1, 2)).get(0);
 
         Vector2d position = new Vector2d(1, 2);
+        int[] assumedEnergy = new int[]{45, 40, 35, 26};
         for (int i = 0; i < 3; i++) {
             engine.run();
             position = new Vector2d(position.x + 1, position.y);
             assertEquals(position, animal.getPosition());
+            assertEquals(assumedEnergy[i], animal.getEnergy());
         }
         engine.run();
         assertNotEquals(new Vector2d(4, 2), animal.getPosition());
+        assertEquals(assumedEnergy[assumedEnergy.length - 1], animal.getEnergy());
     }
 }
