@@ -1,16 +1,13 @@
 package agh.ics.oop.gui;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class WriterCSV {
-    private File file;
-    private List<String[]> dataLines = new ArrayList<>();
-    private PrintWriter printWriter;
+    private final File file;
+    private final PrintWriter printWriter;
 
     public WriterCSV(String name) {
         String absolutePath = new File("").getAbsolutePath();
@@ -24,7 +21,8 @@ public class WriterCSV {
         // Header
         addLine(new String[]{"Day", "Number of animals", "Number of plants", "Number of free fields", "Average energy", "Average life time", "Most popular genotype"});
     }
-
+    // Assuming statistics should be written every day -> flushing every line,
+    // so we can see data during simulation
     public void addLine(String[] line) {
         printWriter.println(toCSV(line));
         printWriter.flush();
@@ -37,13 +35,14 @@ public class WriterCSV {
         return Stream.of(data).map(this::replaceSpecialCharacters).collect(Collectors.joining(","));
     }
 
+    // Just in case :)
     private String replaceSpecialCharacters(String data) {
-        String escapedData = data.replaceAll("\\R", " ");
+        String replacedData = data.replaceAll("\\R", " ");
         if (data.contains(",") || data.contains("\"") || data.contains("'")) {
             data = data.replace("\"", "\"\"");
-            escapedData = "\"" + data + "\"";
+            replacedData = "\"" + data + "\"";
         }
-        return escapedData;
+        return replacedData;
     }
 
     private Boolean createFile() {

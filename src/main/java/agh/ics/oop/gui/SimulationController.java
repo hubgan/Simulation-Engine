@@ -175,7 +175,7 @@ public class SimulationController {
 
         if (this.statistics.getMostPopularGenotype().size() > 0) {
             this.mostPopularGenotype = this.statistics.getMostPopularGenotype().get(0).getGenotype();
-            this.mostPopularGenotypeLabel.setText("Most popular genotype: " + genotypeToString(this.mostPopularGenotype));
+            this.mostPopularGenotypeLabel.setText(genotypeToString(this.mostPopularGenotype));
             if (this.writerCSV != null) {
                 this.writerCSV.addLine(new String[]{String.valueOf(simulationTime), String.valueOf(numberOfAnimals), String.valueOf(numberOfPlants), String.valueOf(numberOfFreeFields), String.valueOf(averageEnergy), String.valueOf(averageLifeTime), genotypeToString(this.mostPopularGenotype)});
             }
