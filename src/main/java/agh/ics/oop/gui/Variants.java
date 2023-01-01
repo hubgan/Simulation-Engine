@@ -10,11 +10,8 @@ import java.util.Map;
 public class Variants {
     private final int width;
     private final int height;
-    /*private  String mapVariant = null;*/
     private final MapVariants mapVariant;
-    /*private  String mutationVariant = "test";*/
     private final MutationVariants mutationVariant;
-    /*private  String behaviourVariant = "test";*/
     private final BehaviourVariants behaviourVariant;
     private final PlantsVariants plantsVariant;
     private final int plantEnergyGain;
