@@ -1,0 +1,17 @@
+plantsStartingNumber: 250
+energyGain: 50
+growthNumber: 15
+plantsVariant: forested equatorial
+width: 50
+height: 50
+mapVariant: infernal portal
+maxMutations: 16
+minMutations: 8
+genomLength: 32
+mutationVariant: slight correction
+animalStartingNumber: 100
+startingEnergy: 4500
+moveEnergyLoss: 75
+copulationEnergyLoss: 50
+copulationEnergy: 75
+animalsVariant: bit of madness

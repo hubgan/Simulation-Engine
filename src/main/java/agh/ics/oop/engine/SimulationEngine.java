@@ -87,7 +87,7 @@ public class SimulationEngine implements IEngine, Runnable {
                 Platform.runLater(simulationController::updateChart);
                 Platform.runLater(simulationController::renderGridPane);
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

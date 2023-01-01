@@ -17,9 +17,9 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1489.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.gui.SimulationController">
    <children>
-      <VBox fx:id="container" alignment="BOTTOM_CENTER" layoutX="55.0" layoutY="92.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" />
+      <VBox fx:id="container" alignment="BOTTOM_CENTER" layoutX="67.0" layoutY="221.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" />
       <VBox fx:id="chart" layoutX="612.0" layoutY="92.0" prefHeight="290.0" prefWidth="559.0" />
-      <GridPane layoutX="149.0" layoutY="559.0" prefHeight="30.0" prefWidth="213.0">
+      <GridPane layoutX="149.0" layoutY="639.0" prefHeight="30.0" prefWidth="213.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="48.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.0" minWidth="10.0" prefWidth="152.0" />
@@ -74,7 +74,7 @@
             </LinearGradient>
          </fill>
       </Text>
-      <Label fx:id="mostPopularGenotypeLabel" layoutX="848.0" layoutY="422.0" prefHeight="41.0" prefWidth="352.0" />
+      <Label fx:id="mostPopularGenotypeLabel" layoutX="709.0" layoutY="429.0" prefHeight="41.0" prefWidth="352.0" textAlignment="CENTER" />
       <VBox fx:id="targetedVBox" layoutX="834.0" layoutY="540.0" prefHeight="99.0" prefWidth="352.0" />
       <Text layoutX="775.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most popular genotype">
          <font>
@@ -157,6 +157,30 @@
       </GridPane>
       <Separator layoutX="556.0" layoutY="56.0" orientation="VERTICAL" prefHeight="565.0" prefWidth="9.0" />
       <Separator layoutX="1192.0" layoutY="67.0" orientation="VERTICAL" prefHeight="565.0" prefWidth="9.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="143.0" layoutX="1239.0" layoutY="327.0" stroke="BLACK" strokeType="INSIDE" width="24.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.658823549747467" green="0.10980392247438431" blue="0.10980392247438431" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4786585365853659">
+                     <color>
+                        <Color red="0.9254902005195618" green="0.7411764860153198" blue="0.1725490242242813" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.0313725508749485" green="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Label layoutX="1297.0" layoutY="374.0" text="Energy bar" />
 
    </children>
 </AnchorPane>
