@@ -99,7 +99,10 @@ public class OptionsController {
             }
         });
 
-        checkBoxCSV.setSelected(true);
+        checkBoxCSV.setSelected(false);
+        labelCSV.setVisible(false);
+        textFieldCSV.setVisible(false);
+
         checkBoxCSV.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 textFieldCSV.setText("");
