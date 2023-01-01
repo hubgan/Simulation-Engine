@@ -46,8 +46,14 @@ public class OptionsController {
     private Label configurationLabel;
     @FXML
     private Label warning;
+    @FXML
+    private CheckBox checkBoxCSV;
+    @FXML
+    private Label labelCSV;
+    @FXML
+    private TextField textFieldCSV;
 
-    UnaryOperator<Change> integerFilter = change -> {
+    private final UnaryOperator<Change> integerFilter = change -> {
         String input = change.getText();
         if (input.matches("(^[0-9]*$)")) {
             return change;
@@ -92,6 +98,15 @@ public class OptionsController {
                 configButton.setText("Edit config");
             }
         });
+
+        checkBoxCSV.setSelected(true);
+        checkBoxCSV.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                textFieldCSV.setText("");
+            }
+            labelCSV.setVisible(newValue);
+            textFieldCSV.setVisible(newValue);
+        });
     }
 
     private Boolean checkIfAllFiled() {
@@ -117,7 +132,7 @@ public class OptionsController {
             stage.setTitle("New Window");
             stage.setScene(scene);
             stage.setMaximized(true);
-            ((SimulationController) fxmlLoader.getController()).initialize(new Variants(getAllValues()));
+            ((SimulationController) fxmlLoader.getController()).initialize(new Variants(getAllValues()), checkBoxCSV.isSelected(), textFieldCSV.getText());
             stage.show();
         } else {
             warning.setText("All values must be filled!");

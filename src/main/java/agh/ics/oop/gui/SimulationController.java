@@ -60,6 +60,7 @@ public class SimulationController {
     private Button stopObserving;
     @FXML
     private Label mostPopularGenotypeLabel;
+    private WriterCSV writerCSV;
 
     @FXML
     protected void clearTargetedAnimal() {
@@ -94,13 +95,18 @@ public class SimulationController {
     }
 
     @FXML
-    public void initialize(Variants variants) {
+    public void initialize(Variants variants, Boolean writeToCSV, String textCSV) {
         stopObserving.setVisible(false);
         this.isStarted = true;
         this.variants = variants;
         this.map = createMap(this.variants);
         this.engine = new SimulationEngine(this.map, this.variants, this);
         this.statistics = new Statistics(this.map, this.engine);
+        if (writeToCSV) {
+            this.writerCSV = new WriterCSV(textCSV);
+        }
+
+
         renderGridPane();
         initMapSize();
         renderChart();
@@ -159,6 +165,8 @@ public class SimulationController {
         int numberOfFreeFields = this.statistics.getNumberOfFreeFields();
         float averageEnergy = this.statistics.getAverageEnergy();
         float averageLifeTime = this.statistics.getAverageLifeTime();
+
+
         this.numberOfAnimalsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfAnimals));
         this.numberOfPlantsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfPlants));
         this.numberOfFreeFieldsSeries.getData().add(new XYChart.Data<>(simulationTime, numberOfFreeFields));
@@ -168,7 +176,14 @@ public class SimulationController {
         if (this.statistics.getMostPopularGenotype().size() > 0) {
             this.mostPopularGenotype = this.statistics.getMostPopularGenotype().get(0).getGenotype();
             this.mostPopularGenotypeLabel.setText("Most popular genotype: " + genotypeToString(this.mostPopularGenotype));
+            if (this.writerCSV != null) {
+                this.writerCSV.addLine(new String[]{String.valueOf(simulationTime), String.valueOf(numberOfAnimals), String.valueOf(numberOfPlants), String.valueOf(numberOfFreeFields), String.valueOf(averageEnergy), String.valueOf(averageLifeTime), genotypeToString(this.mostPopularGenotype)});
+            }
+
+        } else if (this.writerCSV != null) {
+            this.writerCSV.closeWriter();
         }
+
 
         if (this.numberOfAnimalsSeries.getData().size() > CHART_SIZE) {
             // Show only last 10 values on chart
