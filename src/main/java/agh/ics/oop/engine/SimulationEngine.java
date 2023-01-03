@@ -158,8 +158,7 @@ public class SimulationEngine implements IEngine, Runnable {
 
                 int lowerPercent = weakerAnimal.getEnergy() * 100 / (weakerAnimal.getEnergy() + strongerAnimal.getEnergy());
                 int higherPercent = 100 - lowerPercent;
-                int newAnimalEnergy = (lowerPercent * weakerAnimal.getEnergy() / 100) +
-                        (strongerAnimal.getEnergy() * higherPercent / 100);
+                int newAnimalEnergy = variants.getCopulationEnergyLost() * 2;
 
                 strongerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
                 weakerAnimal.decreaseEnergy(variants.getCopulationEnergyLost());
